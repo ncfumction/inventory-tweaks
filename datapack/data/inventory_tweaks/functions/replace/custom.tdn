@@ -1,0 +1,6 @@
+@ require inventory_tweaks:replace/copy_to_hand
+
+set @s -> $item_id = @s.SelectedItem.tag.inventory_tweaks.id
+_aschedule /schedule {
+    function inventory_tweaks:replace/custom_replacer
+}

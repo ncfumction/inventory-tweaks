@@ -1,0 +1,36 @@
+{
+    "target-version": [
+        1,
+        17,
+        0
+    ],
+    "language-level": 3,
+    "strict-nbt": false,
+    "strict-text-components": true,
+    "anonymous-function-name": "_anonymous*",
+    "using-all-plugins": true,
+    "game-logger": {
+        "compact": false,
+        "timestamp-enabled": true,
+        "pos-enabled": true,
+        "line-number-enabled": true
+    },
+    "default-namespace": "inventory_tweaks",
+    "dependencies": [
+        {
+            "path": "$PROJECT_DIR$\\lib\\Data Model",
+            "export": true,
+            "mode": "combine"
+        },
+        {
+            "path": "$PROJECT_DIR$\\lib\\Resources",
+            "export": true,
+            "mode": "combine"
+        },
+        {
+            "path": "$PROJECT_DIR$\\lib\\More Commands",
+            "export": true,
+            "mode": "combine"
+        }
+    ]
+}

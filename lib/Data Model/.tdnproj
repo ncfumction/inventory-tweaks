@@ -1,0 +1,19 @@
+{
+    "target-version": [
+        1,
+        17,
+        0
+    ],
+    "default-namespace": "data_model",
+    "language-level": 1,
+    "strict-nbt": false,
+    "strict-text-components": false,
+    "anonymous-function-name": "_anonymous*",
+    "using-all-plugins": true,
+    "game-logger": {
+        "compact": false,
+        "timestamp-enabled": true,
+        "line-number-enabled": false,
+        "pos-enabled": true
+    }
+}

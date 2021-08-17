@@ -1,0 +1,35 @@
+@ on compile
+@ require anonymous_resources:hash
+
+# Install the yellow shulker box loot table
+eval File.out.writeData(
+    'data/minecraft/loot_tables/blocks/yellow_shulker_box.json',
+    File.in.read('data/yellow_shulker_box.json')
+)
+
+# Run something on load
+global var on_load = function (callback: function) {
+    eval Reflection.insertToFile(resource<inventory_tweaks:load>, callback)
+}
+
+# Load a chunk for various purposes
+var random: Random = new Random(number_hash(''))
+global var load_x: int= random.nextInt(10000000 / 16) * 16 + 20000000
+global var load_z: int = random.nextInt(10000000 / 16) * 16 + 20000000
+global var load_coords = function (x: real, y: real, z: real): coordinates {
+    return coordinates<0 0 0>
+        .deriveMagnitude(load_x + x, Axis.X)
+        .deriveMagnitude(y, Axis.Y)
+        .deriveMagnitude(load_z + z, Axis.Z)
+}
+eval on_load(function () { in overworld forceload add ${load_coords(0, 0, 0)} })
+
+# Set if needed and return a shulker box's coordinates
+var loaded_shulker_box = [null] * 255
+global var shulker_box = function (y: int): coordinates {
+    if (loaded_shulker_box[y] == null) {
+        eval loaded_shulker_box[y] = load_coords(0, y, 0)
+        eval on_load(function () { in overworld setblock ${load_coords(0, y, 0)} minecraft:yellow_shulker_box })
+    }
+    return loaded_shulker_box[y]
+}

@@ -1,0 +1,28 @@
+return group(
+    POINTER.storeVar('target'),
+    choice(
+        group(
+            choice('append', 'prepend', 'set').storeFlat('operation'),
+            choice(
+                NBT_VALUE.storeVar('value'),
+                POINTER.storeVar('source')
+            )
+        ),
+        group(
+            literal('merge').storeFlat('operation'),
+            choice(
+                NBT_COMPOUND.storeVar('value'),
+                POINTER.storeVar('source')
+            )
+        ),
+        group(
+            literal('insert').storeFlat('operation'),
+            INTEGER.storeVar('index'),
+            choice(
+                NBT_VALUE.storeVar('value'),
+                POINTER.storeVar('source')
+            )
+        ),
+        literal('remove').storeFlat('is_remove')
+    )
+);

@@ -1,0 +1,36 @@
+@ on compile
+@ priority 10000000
+
+var reject_score = function (ptr: pointer) {
+    if (ptr.member is string)
+        throw 'Score pointer is not allowed'
+}
+
+define static class Pointer {
+    operator * (self: pointer, other: int) {
+        eval self.scale *= other
+        return self
+    }
+    operator * (self: pointer, other: real) {
+        eval self.scale *= other
+        return self
+    }
+    
+    operator >> (self: pointer, other: int) {
+        eval reject_score(self)
+        return pointer<${self.target}.${self.member.resolveIndex(other)}>
+    }
+    operator >> (self: pointer, other: string) {
+        eval reject_score(self)
+        return pointer<${self.target}.${self.member.resolveKey(other)}>
+    }
+    operator >> (self: pointer, other: list) {
+        eval reject_score(self)
+        if (other.length == 0)
+            return pointer<${self.target}.${self.member.resolveListMatch()}>
+        if (other.length == 1)
+            return pointer<${self.target}.${self.member.resolveListMatch(nbt<${other[0]}>)}>
+        return pointer<${self.target}.${self.member.resolveKey(other[0], nbt<${other[1]}>)}>
+    }
+}
+

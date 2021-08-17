@@ -1,0 +1,40 @@
+@ on compile
+@ priority 10000000
+
+# Hash a string name to a number
+var number_hash = function (name: string, add_file_name: boolean?): int {
+    if (add_file_name == null || add_file_name)
+        eval name += Reflection.getWritingFile()
+    
+    var hash = 0
+    for (char in name) {
+        eval hash = (hash << 5) - hash + Character.toCodePoint(char)
+    }
+    return hash
+}
+
+# Hash a name to a seemingly random name of a length
+var hash = function (name: string, length: int?, add_file_name: boolean?): string {    
+    # First, generate an integer hash
+    var hash = number_hash(name, add_file_name)
+    
+    # Use the integer hash as the seed for a random generator
+    var rand = new Random(hash)
+    
+    # Generate the hashed name
+    if (length == null) eval length = 16
+    eval name = ''
+    var char_set = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'
+    while (name.length < length) {
+        eval name += char_set[rand.nextInt(char_set.length)]
+    }
+    
+    return name
+}
+
+
+var get_unique = function (name: string): string {
+    var resource = Reflection.getWritingFile().resolve(name, '-')
+    eval name = resource.namespace + '-' + resource.body.replace('/', '-')
+    return name
+}

@@ -1,0 +1,33 @@
+var location = args.location
+var callback = args.callback
+eval File.out.writeData(
+    'data/' + location.namespace + '/advancements/' + location.body + '.json',
+    JSON.stringify({
+        criteria: {
+            tick: {
+                trigger: 'minecraft:tick'
+            },
+            impossible: {
+                trigger: 'minecraft:impossible'
+            }
+        },
+        rewards: {
+            function: (string)location
+        }
+    })
+)
+
+define function $location {
+    advancement revoke @s only /
+    eval callback()
+}
+
+if (modifiers.length == 0) {
+    advancement revoke @s only $location tick
+    advancement grant @s only $location impossible
+} else {
+    raw ${modifiers} function ${(resource)(string)(location + '_prepare')} {
+        advancement revoke @s only $location tick
+        advancement grant @s only $location impossible
+    }
+}

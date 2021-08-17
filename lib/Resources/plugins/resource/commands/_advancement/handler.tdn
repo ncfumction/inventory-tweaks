@@ -1,0 +1,94 @@
+var tokens = args.tokens is list ? args.tokens : [args.tokens]
+var length = tokens.length
+var i = 0
+
+var parse_dict
+var parse_list
+var parse = function () {
+    var t = tokens[i++]
+    if (t == '{') return parse_dict()
+    if (t == '[') return parse_list()
+    if (t is int || t is real || t is string || t is boolean) return t
+    if (t is list || t is dictionary) return t
+    if (t is resource) {
+        if (t.isTag) return ((string)t).substring(1)
+        return (string)t
+    }
+    if (t is entity) {
+        if (t.isPlayerName()) return (string)t
+        throw 'Entity must be a player name or an UUID'
+    }
+    if (t is text_component) return JSON.parse((string)t)
+    if (t is int_range || t is real_range) {
+        var range = {}
+        if (t.min != null) eval range.min = t.min
+        if (t.max != null) eval range.max = t.max
+        return range
+    }
+    if (t is nbt || t is nbt_path) return (string)t
+    if (t is pointer) {
+        if (t.member is string) {
+            var target
+            if ((string)t.target == '@s') eval target = 'this'
+            else if (t.target.isPlayerName()) eval target = {type: 'fixed', name: (string)t.target}
+            else throw 'Only accept score pointer of player name'
+            return {type: 'score', target: target, score: t.member, scale: t.scale}
+        }
+        throw 'Only accept score pointer'
+    }
+    throw 'Unsupported type: ' + type_definition.of(t)
+}
+
+var parse_dict = function () {
+    var dict = {}
+    var key: string? = null
+    while (i < length) {
+        var t = tokens[i++]
+        if (t == '}') return dict
+        else if (key == null) eval key = t
+        else {
+            eval i--
+            eval dict[key] = parse()
+            eval key = null
+        }
+    }
+}
+
+var parse_list = function () {
+    var list = []
+    while (i < length) {
+        var t = tokens[i++]
+        if (t == ']') return list
+        else {
+            eval i--
+            eval list.add(parse())
+        }
+    }
+}
+
+var location: resource = (resource)args.location
+var data: dictionary = parse()
+
+if (data.function != null) {  # Shortcut for .rewards.function
+    if (data.rewards != null) eval data.rewards.function = data.function
+    else eval data.rewards = {function: data.function}
+    eval data.remove('function')
+}
+if (data.criteria != null) {
+    if (data.criteria.trigger != null) {  # Shortcut for single-criteria advancement
+        eval data.criteria = {uwu: data.criteria}
+    }
+}
+if (data.trigger != null) {  # Another shortcut for single-criteria advancement
+    eval data.criteria = {uwu: {trigger: data.trigger}}
+    eval data.remove('trigger')
+    if (data.conditions != null) {
+        eval data.criteria.uwu.conditions = data.conditions
+        eval data.remove('conditions')
+    }
+}
+
+eval File.out.writeData(
+    'data/' + location.namespace + '/advancements/' + location.body + '.json',
+    JSON.stringify(data, args.pretty_print == true)
+)

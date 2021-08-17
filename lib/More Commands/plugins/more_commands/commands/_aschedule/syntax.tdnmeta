@@ -1,0 +1,4 @@
+return group(
+    RESOURCE_LOCATION.storeVar('location'),
+    ANONYMOUS_INNER_FUNCTION.storeVar('callback')
+);

@@ -1,0 +1,51 @@
+return choice(
+    group(
+        choice('item', 'block', 'fluid', 'entity_type', 'function')
+            .storeFlat('type')
+            .hint('The tag type'),
+        RESOURCE_LOCATION
+            .storeVar('location')
+            .hint('The location of the tag'),
+        INTERPOLATION_VALUE
+            .storeVar('values')
+            .hint('List of entries in the tag')
+            .optional()
+    ),
+    group(
+        literal('item')
+            .storeFlat('type'),
+        RESOURCE_LOCATION
+            .storeVar('location'),
+        brace('['),
+        list(ITEM_TAGGED.storeVar('values'), COMMA),
+        brace(']')
+    ),
+    group(
+        literal('block')
+            .storeFlat('type'),
+        RESOURCE_LOCATION
+            .storeVar('location'),
+        brace('['),
+        list(BLOCK_TAGGED.storeVar('values'), COMMA),
+        brace(']')
+    ),
+    group(
+        literal('entity_type')
+            .storeFlat('type'),
+        RESOURCE_LOCATION
+            .storeVar('location'),
+        brace('['),
+        list(ENTITY_ID_TAGGED.storeVar('values'), COMMA),
+        brace(']')
+    ),
+    group(
+        choice('fluid', 'function')
+            .storeFlat('type'),
+        RESOURCE_LOCATION
+            .storeVar('location'),
+        brace('['),
+        list(RESOURCE_LOCATION_TAGGED.storeVar('values'), COMMA),
+        brace(']')
+    )
+);
+

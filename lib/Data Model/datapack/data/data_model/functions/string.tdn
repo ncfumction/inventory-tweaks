@@ -1,0 +1,31 @@
+@ on compile
+@ priority 10000000
+
+define class String {
+    operator < (self: string, other: string) {
+        var length = Math.min(self.length, other.length)
+        for (var i = 0; i < length; i++) {
+            var chr1 = Character.toCodePoint(self[i])
+            var chr2 = Character.toCodePoint(other[i])
+            if (chr1 < chr2) {
+                return true
+            } else if (chr1 > chr2) {
+                return false
+            }
+        }
+        if (self.length >= other.length) {
+            return false
+        }
+        return true
+    }
+    operator > (self: string, other: string) {
+        return other < self
+    }
+    operator <= (self: string, other: string) {
+        return !(other < self)
+    }
+    operator >= (self: string, other: string) {
+        return !(self < other)
+    }
+}
+

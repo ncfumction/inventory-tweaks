@@ -1,0 +1,21 @@
+if (modifiers.length != 0) {
+    throw 'This command cannot be invoked with modifiers'
+}
+
+var values: list = []
+if (args.values == null) eval values = []
+else {
+    for (elem in args.values) {
+        eval values.add(
+            elem is dictionary ? elem
+            : elem is resource ? elem
+            : elem is item ? elem.itemType
+            : elem is block ? elem.blockType
+            : (resource)elem)
+    }
+}
+
+var location = (resource)args.location
+var type = args.type
+
+eval Tags.createTag(type, location, values)

@@ -1,0 +1,17 @@
+@ on compile
+@ priority 10000000
+@ require anonymous_resources:hash
+
+private var i = 0
+private var name_map = {}
+private var init_temp = {}
+var anonymous_storage = function (name: string?): pointer {
+    var anon_storage = Reflection.getWritingFile().namespace + ':' + hash('anonymous', add_file_name: false).toLowerCase()
+    if (name == null) eval name = 'anonymous_' + i++
+    else {
+        eval name = get_unique(name)
+        if (name_map[name] == null) eval name_map[name] = 'anonymous_' + i++
+        eval name = name_map[name]
+    }
+    return pointer<${(resource)anon_storage}.${new nbt_path(name)}>
+}

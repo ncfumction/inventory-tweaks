@@ -1,0 +1,34 @@
+@ on compile
+@ require trident-util:generators
+@ require anonymous_resources:score
+@ require anonymous_resources:storage
+
+var location = resource</>
+
+# The id of the custom item
+var item_id = anonymous_objective('item_id')
+# The replacement items list
+var replacement = anonymous_storage('replacement')
+# The slot the replacement item is in
+var slot = anonymous_score('slot')
+
+# Generate the function tree to find the slot
+var splits = 4
+eval generateFunctionTree(
+    resource</>,
+    int_range<0..36>,
+    splits,
+    function (range, next) {
+        if (range.min == 0 && range.max * splits > 35) {
+            set $slot = ${replacement >> 0 >> 'Slot'}
+            in overworld item replace block ${shulker_box(0)} container.0 from entity @s weapon.mainhand
+        }
+        if score deref $slot matches $range function $next
+    },
+    function (i) {
+        if score deref $slot matches $i in overworld function ${location / i} {
+            item replace entity @s weapon.mainhand from entity @s ${'container.' + i}
+            item replace entity @s ${'container.' + i} from block ${shulker_box(0)} container.0
+        }
+    }
+)

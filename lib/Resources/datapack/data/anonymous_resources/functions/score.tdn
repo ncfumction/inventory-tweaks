@@ -1,0 +1,38 @@
+@ on compile
+@ priority 10000000
+@ require anonymous_resources:hash
+
+private var objective_map = {}
+private var i = 0
+private var name_map = {}
+var anonymous_score = function (name: string?, initial_value: int?): pointer {
+    var anon_objective = hash(Reflection.getWritingFile().namespace + 'temp', add_file_name: false)
+    if (objective_map[anon_objective] == null) {
+        define objective $anon_objective
+        eval objective_map[anon_objective] = true
+    }
+    
+    if (name == null) eval name = 'anonymous_' + i++
+    else {
+        eval name = get_unique(name)
+        if (name_map[name] == null) eval name_map[name] = 'anonymous_' + i++
+        eval name = name_map[name]
+    }
+    
+    if (initial_value != null)
+        eval Reflection.insertToFile(resource<anonymous_resources:trident/create_objectives>, function () {
+            set ${pointer<${entity<$name>} -> $anon_objective>} = $initial_value
+        })
+    
+    return pointer<${entity<$name>} -> $anon_objective>
+}
+
+var anonymous_objective = function (name: string?, criteria: string?, display_name: text_component?): string {
+    if (name == null) eval name = 'anonymous_' + i++
+    
+    var obj = hash(name)
+    if (criteria == null) define objective $obj
+    else if (display_name == null) define objective $obj $criteria
+    else define objective $obj $criteria $display_name
+    return obj
+}

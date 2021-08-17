@@ -1,0 +1,44 @@
+{
+    "input-resources": "(automatically selected by Trident-UI)",
+    "output": {
+        "directories": {
+            "data-pack": "$PROJECT_DIR$\\out\\Inventory Tweaks",
+            "resource-pack": "$PROJECT_DIR$\\out\\Inventory Tweaks-resources.zip"
+        },
+        "clean-directories": {
+            "data-pack": true,
+            "resource-pack": true
+        },
+        "export-comments": false,
+        "export-gamelog": true
+    },
+    "trident-ui": {
+        "actions": {
+            "pre": [
+                "clear",
+                "exec cmd",
+                "cd Inventory Tweaks",
+                "git add .",
+                "git commit -m \"Auto commit pre compile\"",
+                "cd scripts",
+                "pre.py",
+                "exit"
+            ],
+            "post-success": [
+                "exec cmd",
+                "cd Inventory Tweaks",
+                "cd scripts",
+                "post-success.py",
+                "exit"
+            ],
+            "post": [
+                "gc",
+                "exec cmd",
+                "cd Inventory Tweaks",
+                "cd scripts",
+                "post.py",
+                "exit"
+            ]
+        }
+    }
+}

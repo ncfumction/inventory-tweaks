@@ -1,0 +1,23 @@
+@ require inventory_tweaks:replace/copy_to_hand
+
+set $replacement = @s.Inventory
+
+# Remove offhand and armor slots
+modify ${replacement >> [nbt<{Slot:-106b}>]} remove
+modify ${replacement >> [nbt<{Slot:100b}>]} remove
+modify ${replacement >> [nbt<{Slot:101b}>]} remove
+modify ${replacement >> [nbt<{Slot:102b}>]} remove
+modify ${replacement >> [nbt<{Slot:103b}>]} remove
+
+# Iterate through the list, stop at the first item with matching id found
+var slot_id = anonymous_score()
+function /loop {
+    set $slot_id = ${replacement >> 0 >> 'tag' >> 'inventory_tweaks' >> 'id'}
+    unless score deref $slot_id = @s $item_id expand {
+        modify ${replacement >> 0} remove
+        function /
+    }
+}
+
+# Copy the item to hand
+if data storage ${replacement.target} ${(replacement >> []).member} function inventory_tweaks:replace/copy_to_hand

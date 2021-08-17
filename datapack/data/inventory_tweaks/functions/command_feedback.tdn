@@ -1,0 +1,14 @@
+@ require anonymous_resources:score
+
+var location = resource</>
+var command_feedback = anonymous_score()
+
+if score deref $command_feedback matches 1 gamerule sendCommandFeedback true
+if score deref $command_feedback matches 0 gamerule sendCommandFeedback false
+set $command_feedback = -1
+
+var no_feedback = function () {
+    unless score deref $command_feedback matches 0.. store result score deref $command_feedback gamerule sendCommandFeedback
+    gamerule sendCommandFeedback false
+    _schedule $location
+}

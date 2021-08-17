@@ -1,0 +1,307 @@
+@ on compile
+@ priority 10000000
+
+define global class List {
+    public var base: list
+    
+    public new(list) {
+        if (list == null) {
+            eval base = []
+        } else if (list is list) {
+            eval base = list
+        } else {
+            eval base = []
+            for (elem in list) {
+                eval base.add(elem)
+            }
+        }
+    }
+    
+    
+    # Indexer
+    public this[index: int] {
+        get {
+            return base[index < 0 ? base.length + index : index]
+        }
+        set (value) {
+            eval base[index < 0 ? base.length + index : index] = value
+        }
+    }
+    
+    
+    # Length
+    public length {
+        get: int {
+            return base.length
+        }
+    }
+    
+    
+    # Add an element to the end of the list
+    public add(elem) {
+        return base.add(elem)
+    }
+    
+    
+    # Insert an element at the specified index
+    public insert(elem, index: int) {
+        return base.insert(elem, index < 0 ? base.length + index : index)
+    }
+    
+    
+    # Remove an element at the specified index
+    public remove(index: int) {
+        return base.remove(index < 0 ? base.length + index : index)
+    }
+    
+    
+    # Remove all elements from the list
+    public clear() {
+        return base.clear()
+    }
+    
+    
+    # Return whether the given value exists in the list
+    public contains(value): boolean {
+        return base.contains(value)
+    }
+    
+    
+    # Return the index of the first appearance of a value in the list, -1 if not present
+    public indexOf(value): int {
+        return base.indexOf(value)
+    }
+    
+    
+    # Return the index of the last appearance of a value in the list, -1 if not present
+    public lastIndexOf(value): int {
+        return base.lastIndexOf(value)
+    }
+    
+    
+    # Return true if the list is empty, false otherwise
+    public isEmpty(): boolean {
+        return base.isEmpty()
+    }
+    
+    
+    # Creates a new list where each element corresponds to one of the original list, mapped through a filter
+    public map(callback: function): List {
+        return new List(base.map(callback))
+    }
+    
+    
+    # Creates a new list where each element corresponds to one of the original list which satisfies a filter
+    public filter(callback: function): List {
+        return new List(base.filter(callback))
+    }
+    
+    
+    # Reduces all of the values of the list into a single value
+    public reduce(callback: function, initialValue) {
+        return base.reduce(callback, initialValue)
+    }
+    
+    
+    # Turn into a string
+    public override toString(): string {
+        return (string)base
+    }
+    
+    
+    # Coerc to a string
+    override implicit <string> {
+        return (string)base
+    }
+    override explicit <string> {
+        return (string)base
+    }
+    
+    
+    # Return an iterator
+    public override getIterator() {
+        return base
+    }
+    
+    
+    # Creates a new list which is a section of the original list
+    public slice(start: int, stop: int, step: int): List {
+        if (step == 0) throw 'Slice step cannot be 0'
+        
+        if (start < 0) {
+            if (step > 0) eval start = 0
+        } else if (start >= base.length) {
+            if (step < 0) eval start = base.length - 1
+        }
+        
+        
+        if (stop > base.length) eval stop = base.length
+        else if (stop < 0 && step > 0) eval stop += base.length
+        
+        
+        var result = []
+        if (step > 0) {
+            for (var i = start; i < stop; i += step) {
+                eval result.add(base[i])
+            }
+        } else {
+            for (var i = start; i > stop; i += step) {
+                eval result.add(base[i])
+            }
+        }
+        return new List(result)
+    }
+    public slice(start: int, stop: int): List {
+        return slice(start, stop, 1)
+    }
+    public slice(start: int): List {
+        return slice(start, base.length, 1)
+    }
+    public slice(): List {
+        return clone()
+    }
+    
+    
+    # Return a shallow copy of the list
+    public clone(): List {
+        return new List(base.map(function (v) { return v }))
+    }
+    
+    
+    # Merge the list with an iterable
+    public merge(other): List {
+        for (elem in other) {
+            eval base.add(elem)
+        }
+        return this
+    }
+    # Shorthand for merge
+    operator << (self: List, other): List {
+        return self.merge(other)
+    }
+    
+    
+    # Sum of 2 lists create a new list
+    operator + (self: List, other: List): List {
+        return new List().merge(self).merge(other)
+    }
+    operator + (self: List, other: list): List {
+        return new List().merge(self).merge(other)
+    }
+    operator + (self: list, other: List): list {
+        return new List().merge(self).merge(other).base
+    }
+    operator + (self: list, other: list): list {
+        return new List().merge(self).merge(other).base
+    }
+    
+    
+    # Multiplies a list with a number
+    operator * (self: List, other: int): List {
+        var list = new List()
+        for (var i = 0; i < other; i++) {
+            eval list << self
+        }
+        return list
+    }
+    operator * (self: list, other: int): list {
+        return (new List(self) * other).base
+    }
+    
+    
+    # Sort the list
+    public sort(key: function?): List {
+        if (key == null) {
+            eval quick_sort(null, base, 0, base.length - 1)
+        } else {
+            eval quick_sort(base.map(key), base, 0, base.length - 1)
+        }
+        return this
+    }
+    
+    
+    # Return the number the specified value appear in the list
+    public count(value): int {
+        var c = 0
+        for (elem in base) {
+            if (elem == value) eval c++
+        }
+        return c
+    }
+    
+    
+    # Join the list with specified delimiter
+    public join(delimiter: string?) {
+        if (delimiter == null) eval delimiter = ''
+        if (base.length == 0) return ''
+        var result = (string)base[0]
+        for (var i = 1; i < base.length; i++) {
+            eval result += delimiter + (string)base[i]
+        }
+        return result
+    }
+    
+    
+    # Use the operator % to join
+    operator % (self: List, other: string): string {
+        return self.join(other)
+    }
+    operator % (self: list, other: string): string {
+        return new List(self).join(other)
+    }
+    
+    
+    # Iterate through the list, run the function
+    public for_each(callback: function) {
+        for (var i = 0; i < base.length; i++) {
+            eval callback(base[i], i, this)
+        }
+    }
+}
+
+private var quick_sort = function (mapped, list, low, high) {
+    if (low < high) {
+        var p = partition(mapped, list, low, high)
+        eval quick_sort(mapped, list, low, p - 1)
+        eval quick_sort(mapped, list, p + 1, high)
+    }
+}
+private var partition = function (mapped, list, low, high) {
+    if (mapped != null) {
+        var pivot = mapped[high]
+        var i = low
+        for (var j = low; j <= high; j++) {
+            if (mapped[j] < pivot) {
+                var temp = list[i]
+                eval list[i] = list[j]
+                eval list[j] = temp
+                eval temp = mapped[i]
+                eval mapped[i] = mapped[j]
+                eval mapped[j] = temp
+                eval i++
+            }
+        }
+        var temp = list[i]
+        eval list[i] = list[high]
+        eval list[high] = temp
+        eval temp = mapped[i]
+        eval mapped[i] = mapped[high]
+        eval mapped[high] = temp
+        return i
+    } else {
+        var pivot = list[high]
+        var i = low
+        for (var j = low; j <= high; j++) {
+            if (list[j] < pivot) {
+                var temp = list[i]
+                eval list[i] = list[j]
+                eval list[j] = temp
+                eval i++
+            }
+        }
+        var temp = list[i]
+        eval list[i] = list[high]
+        eval list[high] = temp
+        return i
+    }
+}

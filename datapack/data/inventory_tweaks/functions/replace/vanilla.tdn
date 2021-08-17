@@ -1,0 +1,121 @@
+@ on compile
+@ require inventory_tweaks:replace/copy_to_hand
+
+var location = resource</>
+
+var tools = JSON.parse(File.in.read('data/tools.json')).values
+var foods = JSON.parse(File.in.read('data/foods.json')).values
+var blocks = []
+
+var items = {}
+for (item in tools) {
+    if (items[item] == null) eval items[item] = ['tool']
+    else eval items[item].add('tool')
+}
+for (item in foods) {
+    if (items[item] == null) eval items[item] = ['food']
+    else eval items[item].add('food')
+}
+for (item in blocks) {
+    if (items[item] == null) eval items[item] = ['block']
+    else eval items[item].add('block')
+}
+
+for (entry in items) {
+    var item = entry.key
+    var type = entry.value
+    # Create the function that will trigger on events
+    # and the item must be in mainhand, the player must be in survival
+    define function ${location / item} {
+        advancement revoke @s only /
+        
+        # Create the required criteria
+        var criteria = {}
+        var requirements = []
+        var i = 0
+        var player_condition = {
+            equipment: {
+                mainhand: {
+                    items: [item]
+                }
+            },
+            player: {
+                gamemode: 'survival'
+            }
+        }
+        if (type.contains('food')) {
+            eval requirements.add((string)i)
+            eval criteria[(string)i++] = {
+                trigger: 'minecraft:consume_item',
+                conditions: {
+                    item: {
+                        items: [item],
+                        count: 1
+                    },
+                    player: player_condition
+                }
+            }
+        }
+        if (type.contains('tool')) {
+            eval requirements.add((string)i)
+            eval criteria[(string)i++] = {
+                trigger: 'minecraft:item_durability_changed',
+                conditions: {
+                    item: {
+                        items: [item]
+                    },
+                    durability: {
+                        max: 0
+                    },
+                    player: player_condition
+                }
+            }
+        }
+        if (type.contains('block')) {
+            eval requirements.add((string)i)
+            eval criteria[(string)i++] = {
+                trigger: 'minecraft:placed_block',
+                conditions: {
+                    item: {
+                        items: [item],
+                        count: 1
+                    },
+                    player: player_condition
+                }
+            }
+        }
+        
+        # Create the advancement
+        _advancement / {
+            -criteria $criteria
+            -requirements ${[requirements]}
+            -function /
+        }
+        
+        # Get the custom item id
+        set @s -> $item_id = @s.SelectedItem.tag.inventory_tweaks.id
+        
+        # Schedule the replacement later
+        _aschedule /schedule {
+            # If this is a custom item, invoke the custom replacer
+            unless score @s $item_id matches 0 function inventory_tweaks:replace/custom_replacer
+            
+            if score @s $item_id matches 0 function /../vanilla {
+                # If this is a vanilla item, first copy all items with the same ID to replacement list
+                set $replacement = []
+                modify $replacement append @s.Inventory[{id:$item}]
+                # Then, remove offhand and armor slots
+                modify ${replacement >> [nbt<{Slot:-106b}>]} remove
+                modify ${replacement >> [nbt<{Slot:100b}>]} remove
+                modify ${replacement >> [nbt<{Slot:101b}>]} remove
+                modify ${replacement >> [nbt<{Slot:102b}>]} remove
+                modify ${replacement >> [nbt<{Slot:103b}>]} remove
+                # Remove custom items
+                modify ${replacement >> [nbt<{tag:{inventory_tweaks:{custom:1b}}}>]} remove
+                # Copy the item to hand
+                if data storage ${replacement.target} ${(replacement >> []).member} function inventory_tweaks:replace/copy_to_hand
+            }
+        }
+        
+    }
+}

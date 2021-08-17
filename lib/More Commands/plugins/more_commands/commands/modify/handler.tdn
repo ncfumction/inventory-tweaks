@@ -1,0 +1,30 @@
+var command = args.is_remove == null ? 'data modify' : 'data remove'
+if (args.target.target is coordinates) {
+    eval command += ' block'
+} else if (args.target.target is entity) {
+    if (args.target.member is string)
+        throw 'This command does not accept score pointer'
+    eval command += ' entity'
+} else if (args.target.target is resource) {
+    eval command += ' storage'
+}
+eval command += ' ' + (string)args.target.target + ' ' + (string)args.target.member
+if (args.operation != null) eval command += ' ' + args.operation
+if (args.index != null) eval command += ' ' + args.index
+if (args.value != null) {
+    eval command += ' value ' + (string)args.value
+} else if (args.source != null) {
+    eval command += ' from'
+    if (args.source.target is coordinates) {
+        eval command += ' block'
+    } else if (args.source.target is entity) {
+        if (args.source.member is string)
+            throw 'This command does not accept score pointer'
+        eval command += ' entity'
+    } else if (args.source.target is resource) {
+        eval command += ' storage'
+    }
+    eval command += ' ' + (string)args.source.target + ' ' + (string)args.source.member
+}
+
+raw $modifiers /${command}

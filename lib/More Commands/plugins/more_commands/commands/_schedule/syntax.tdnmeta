@@ -1,0 +1,16 @@
+return group(
+    choice(
+        OPTIONAL_NAME_INNER_FUNCTION.storeVar('location'),
+        RESOURCE_LOCATION.storeVar('location')
+    ),
+    group(
+        INTEGER,
+        group(
+            GLUE,
+            choice('t', 's', 'd')
+        ).optional()
+    ).storeFlat('time', '').name('time').optional(),
+    optional(
+        choice('append', 'replace').storeFlat('operation')
+    )
+);

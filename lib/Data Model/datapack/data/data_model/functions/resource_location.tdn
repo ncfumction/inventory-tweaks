@@ -1,0 +1,27 @@
+@ on compile
+@ priority 10000000
+
+define static class ResourceLocation {
+    operator / (self: resource, other: string) {
+        if (other == '..')
+            return self.parent
+        if (other == '#')
+            return new resource('#' + (string)self)
+        var i = other.indexOf(':')
+        if (i != -1)
+            eval other = other.substring(i + 1)
+        if (other[0].isLetterOrDigit())
+            return self.resolve(other)
+        return self.resolve(other.substring(1), other[0])
+    }
+    operator / (self: resource, other: int) {
+        return self.resolve((string)other)
+    }
+    
+    operator >> (self: resource, other: string) {
+        return self.parent.resolve(self[self.nameCount - 1] + '_' + other)
+    }
+    operator >> (self: resource, other: int) {
+        return self.parent.resolve(self[self.nameCount - 1] + '_' + (string)other)
+    }
+}
