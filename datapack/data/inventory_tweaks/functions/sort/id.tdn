@@ -9,11 +9,6 @@ eval items.insert('minecraft:air', 0)
 
 var id = anonymous_score()
 
-define function /tick {
-    @ tag tick
-    as @a function /..
-}
-
 # If it has a custom id, use that
 set $id = @s.HandItems[0].tag.inventory_tweaks.id
 
@@ -72,4 +67,15 @@ eval generateFunctionTree(
         if predicate ${location / i} set $id = $j
     }
 )
-if score deref $id matches 0 function /vanilla2
+function /vanilla2
+
+define function /test1 {
+    for (var i = 0; i < 100; i++) {
+        function /../vanilla
+    }
+}
+define function /test2 {
+    for (var i = 0; i < 100; i++) {
+        function /../vanilla2
+    }
+}
