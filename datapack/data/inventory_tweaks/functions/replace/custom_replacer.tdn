@@ -9,8 +9,6 @@ modify ${replacement >> [nbt<{Slot:101b}>]} remove
 modify ${replacement >> [nbt<{Slot:102b}>]} remove
 modify ${replacement >> [nbt<{Slot:103b}>]} remove
 
-function /../a
-
 # Iterate through the list, stop at the first item with matching id found
 var slot_id = anonymous_score()
 function /loop {
