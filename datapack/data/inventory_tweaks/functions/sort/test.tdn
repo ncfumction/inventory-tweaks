@@ -1,0 +1,35 @@
+@ require trident-util:generators
+@ require anonymous_resources:score
+
+var x = anonymous_score()
+set $x = 0
+
+eval generateFunctionTree(
+    resource</a>,
+    int_range<0..36>,
+    4,
+    function (range, next) {
+        if score deref $x matches $range function $next
+    },
+    function (i) {
+        execute if score deref $x matches $i noop
+    }
+)
+
+
+define function /b {
+    for (var i = 0; i < 36; i++) {
+        execute if score deref $x matches $i noop
+    }
+}
+
+define function /1 {
+    for (var i = 0; i < 1000; i++) {
+        function /../a
+    }
+}
+define function /2 {
+    for (var i = 0; i < 1000; i++) {
+        function /../b
+    }
+}

@@ -1,0 +1,23 @@
+@ on compile
+@ require trident-util:generators
+@ require anonymous_resources:score
+
+var slot_id = anonymous_score()
+
+# This function tree is used to insert items to the shulker box based on the armor stands' order
+eval generateFunctionTree(
+    root: resource</>,
+    interval: int_range<0..27>,
+    splits: 4,
+    nodeFunction: function (range, next_function) {
+        if score deref $slot_id matches $range function $next_function
+        if (range.min == 16 && range.max == 26) {
+            kill @s
+        }
+    },
+    leafFunction: function (i) {
+        if score deref $slot_id matches $i
+            in overworld
+            item replace block ${shulker_box(0)} ${'container.' + i} from entity @s weapon.mainhand
+    }
+)

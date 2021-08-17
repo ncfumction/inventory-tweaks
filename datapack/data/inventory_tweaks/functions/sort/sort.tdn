@@ -1,0 +1,44 @@
+@ require anonymous_resources:hash
+@ require inventory_tweaks:sort/id
+@ require inventory_tweaks:init
+@ require inventory_tweaks:sort/tree
+
+# We use entity sort for this
+# The numbers are stored at y pos of entities
+# Then the entities are targeted with sort=nearest
+# Armor stands are used because we need them for the predicate anyway
+
+var self_tag = get_unique('self')
+var summon_tag = get_unique('summon')
+var unique_tag = get_unique('unique')
+
+using tag $self_tag @s {
+    for (var i = 9; i < 36; i++) {
+        using summon minecraft:armor_stand ~0.5 -100 ~0.5 {Marker:1b,Invisible:1b,Tags:[$summon_tag]} with $unique_tag {
+            # Copy the item to the armor stand's mainhand
+            item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,dx=0,limit=1] ${'container.' + i}
+            # Get the id
+            function inventory_tweaks:sort/id
+            # If the armor stand doesn't hold anything, kill it
+            if score deref $id matches 0 kill @s
+            # If the score is not 0, copy that to the armor stand's y pos, scale down
+            unless score deref $id matches 0
+                set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
+        }
+    }
+    
+    # Place items in a shulker box based on the armor stand's position
+    in overworld set ${shulker_box(0)} = []
+    in overworld set ${shulker_box(1)} = []
+    set $slot_id = 0
+    as @e[type=minecraft:armor_stand,tag=$summon_tag,y=-2,dy=16,sort=nearest] function {
+        function inventory_tweaks:sort/tree
+        set $slot_id += 1
+    }
+    # Loot the shulker box to another one to merge items
+    in overworld loot insert ${shulker_pos(1)} mine ${shulker_pos(0)} minecraft:air{drop_contents:1b}
+    # Loot the final shulker box to the player
+    in overworld loot replace entity @s container.9 mine ${shulker_pos(1)} minecraft:air{drop_contents:1b}
+    # Kill the remaining armor stands
+    kill @e[type=minecraft:armor_stand,tag=$summon_tag]
+}
