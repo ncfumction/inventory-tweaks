@@ -1,0 +1,31 @@
+@ require anonymous_resources:score
+
+# Get the list of all items, put air at first index
+var items = JSON.parse(File.in.read('items.json')).values
+eval items.remove(items.indexOf('minecraft:air'))
+eval items.insert('minecraft:air', 0)
+
+
+var id = anonymous_score()
+
+# If it has a custom id, use that
+set $id = @s.HandItems[0].tag.inventory_tweaks.id
+
+# Otherise this is a vanilla item
+var max_bit = Math.ceil(Math.log2(items.length))
+if score deref $id matches 0 function /vanilla {
+    for (var i = 0; i < max_bit; i++) {
+        _predicate ${resource</> / i} {
+            -condition entity_properties
+            -entity this
+            -predicate {
+                -equipment {
+                    -mainhand {
+                        -items ${items.filter(function (v, index) { return (index & (1 << i)) != 0 })}
+                    }
+                }
+            }
+        }
+        if predicate ${resource</> / i} set $id += ${1 << i}
+    }
+}
