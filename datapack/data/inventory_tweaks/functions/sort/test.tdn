@@ -9,17 +9,17 @@ eval generateFunctionTree(
     int_range<0..36>,
     4,
     function (range, next) {
-        if score deref $x matches $range function $next
+        if entity @s function $next
     },
     function (i) {
-        execute if score deref $x matches $i noop
+        execute if entity @s noop
     }
 )
 
 
 define function /b {
     for (var i = 0; i < 36; i++) {
-        execute if score deref $x matches $i noop
+        execute if entity @s noop
     }
 }
 
