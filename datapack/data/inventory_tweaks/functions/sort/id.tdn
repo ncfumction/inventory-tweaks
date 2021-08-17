@@ -10,6 +10,7 @@ eval items.insert('minecraft:air', 0)
 var id = anonymous_score()
 
 define function /tick {
+    @ tag tick
     as @a function /..
 }
 
