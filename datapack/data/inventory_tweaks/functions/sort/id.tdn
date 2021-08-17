@@ -53,7 +53,7 @@ eval generateFunctionTree(
         eval i++
     },
     function (j) {
-        _predicate ${location / i} {
+        _predicate ${location / i++} {
             -condition entity_properties
             -entity this
             -predicate {
