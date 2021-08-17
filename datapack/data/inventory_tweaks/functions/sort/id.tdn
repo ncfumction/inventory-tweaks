@@ -1,3 +1,4 @@
+@ require trident-util:generators
 @ require anonymous_resources:score
 
 # Get the list of all items, put air at first index
@@ -29,3 +30,41 @@ if score deref $id matches 0 function /vanilla {
         if predicate ${resource</> / i} set $id += ${1 << i}
     }
 }
+
+var i = 0
+var location = resource</vanilla2>
+eval generateFunctionTree(
+    resource</vanilla2>,
+    int_range<0..${items.length}>,
+    4,
+    function (range, next) {
+        _predicate ${location / i} {
+            -condition entity_properties
+            -entity this
+            -predicate {
+                -equipment {
+                    -mainhand {
+                        -items ${new List(items).slice(range.min, range.max)}
+                    }
+                }
+            }
+        }
+        if predicate ${location / i} function $next
+        eval i++
+    },
+    function (j) {
+        _predicate ${location / i} {
+            -condition entity_properties
+            -entity this
+            -predicate {
+                -equipment {
+                    -mainhand {
+                        -items [${items[j]}]
+                    }
+                }
+            }
+        }
+        if predicate ${location / i} set $id = $j
+    }
+)
+if score deref $id matches 0 function /vanilla2
