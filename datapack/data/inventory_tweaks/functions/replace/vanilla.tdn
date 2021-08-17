@@ -9,16 +9,16 @@ var blocks = JSON.parse(File.in.read('data/items_with_block_form.json')).values
 
 var items = {}
 for (item in tools) {
-    if (items[item] == null) eval items[item] = ['tool']
-    else eval items[item].add('tool')
+    if (items[item] == null) eval items[item] = ['durability']
+    else eval items[item].add('durability')
 }
 for (item in foods) {
-    if (items[item] == null) eval items[item] = ['food']
-    else eval items[item].add('food')
+    if (items[item] == null) eval items[item] = ['consume']
+    else eval items[item].add('consume')
 }
 for (item in blocks) {
-    if (items[item] == null) eval items[item] = ['block']
-    else eval items[item].add('block')
+    if (items[item] == null) eval items[item] = ['placed']
+    else eval items[item].add('placed')
 }
 
 for (entry in items) {
@@ -32,7 +32,6 @@ for (entry in items) {
         # Create the required criteria
         var criteria = {}
         var requirements = []
-        var i = 0
         var player_condition = {
             equipment: {
                 mainhand: {
@@ -43,9 +42,9 @@ for (entry in items) {
                 gamemode: 'survival'
             }
         }
-        if (type.contains('food')) {
-            eval requirements.add((string)i)
-            eval criteria[(string)i++] = {
+        if (type.contains('consume')) {
+            eval requirements.add('consume')
+            eval criteria['consume'] = {
                 trigger: 'minecraft:consume_item',
                 conditions: {
                     item: {
@@ -56,9 +55,9 @@ for (entry in items) {
                 }
             }
         }
-        if (type.contains('tool')) {
-            eval requirements.add((string)i)
-            eval criteria[(string)i++] = {
+        if (type.contains('durability')) {
+            eval requirements.add('durability')
+            eval criteria['durability'] = {
                 trigger: 'minecraft:item_durability_changed',
                 conditions: {
                     item: {
@@ -71,9 +70,9 @@ for (entry in items) {
                 }
             }
         }
-        if (type.contains('block')) {
-            eval requirements.add((string)i)
-            eval criteria[(string)i++] = {
+        if (type.contains('placed')) {
+            eval requirements.add('placed')
+            eval criteria['placed'] = {
                 trigger: 'minecraft:placed_block',
                 conditions: {
                     item: {
