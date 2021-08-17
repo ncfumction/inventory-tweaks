@@ -5,4 +5,4 @@ _aschedule /schedule {
     function inventory_tweaks:replace/custom_replacer
 }
 
-function foo.:a
+function foo.a:a
