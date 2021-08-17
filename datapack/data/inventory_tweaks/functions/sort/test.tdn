@@ -9,7 +9,10 @@ eval generateFunctionTree(
     int_range<0..36>,
     4,
     function (range, next) {
-        if entity @s function $next
+        if (range.min == 0)
+            if entity @s function $next
+        else
+            unless entity @s function $next
     },
     function (i) {
         execute if entity @s noop
@@ -18,8 +21,9 @@ eval generateFunctionTree(
 
 
 define function /b {
-    for (var i = 0; i < 36; i++) {
-        execute if entity @s noop
+    execute if entity @s noop
+    for (var i = 1; i < 36; i++) {
+        execute unless entity @s noop
     }
 }
 
