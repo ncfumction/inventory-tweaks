@@ -5,7 +5,7 @@ var location = resource</>
 
 var tools = JSON.parse(File.in.read('data/tools.json')).values
 var foods = JSON.parse(File.in.read('data/foods.json')).values
-var blocks = JSON.parse(File.in.read('data/blocks.json')).values
+var blocks = JSON.parse(File.in.read('data/items_with_block_form.json')).values
 
 var items = {}
 for (item in tools) {
