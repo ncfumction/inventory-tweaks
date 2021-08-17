@@ -1,7 +1,7 @@
 @ require anonymous_resources:score
 
 # Get the list of all items, put air at first index
-var items = JSON.parse(File.in.read('items.json')).values
+var items = JSON.parse(File.in.read('data/items.json')).values
 eval items.remove(items.indexOf('minecraft:air'))
 eval items.insert('minecraft:air', 0)
 
