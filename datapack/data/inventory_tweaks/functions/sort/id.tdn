@@ -44,7 +44,7 @@ eval generateFunctionTree(
             -predicate {
                 -equipment {
                     -mainhand {
-                        -items ${new List(items).slice(range.min, range.max)}
+                        -items ${new List(items).slice(range.min, range.max).base}
                     }
                 }
             }
