@@ -9,6 +9,10 @@ eval items.insert('minecraft:air', 0)
 
 var id = anonymous_score()
 
+define function /tick {
+    as @a function /..
+}
+
 # If it has a custom id, use that
 set $id = @s.HandItems[0].tag.inventory_tweaks.id
 
