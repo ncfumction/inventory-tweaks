@@ -121,6 +121,7 @@ in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$
         set $slot_id += 1
         # At most the same number as empty slots will be inserted
         if score deref $slot_id = deref $empty_slots function {
+            set $slot_id = 0
             # Insert the items to another shulker box to merge
             loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
             set ${shulker_box(0)}.Items = []
