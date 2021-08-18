@@ -6,7 +6,7 @@ _loot_table / {
             -entity this
             -lore [
                 {
-                    "selector": "@s"
+                    "selector": "@p"
                 }
             ]
         }
