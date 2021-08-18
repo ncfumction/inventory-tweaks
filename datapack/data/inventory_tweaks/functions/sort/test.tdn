@@ -5,7 +5,7 @@ _loot_table / {
             -function set_lore
             -lore [
                 {
-                    "selector": "@p"
+                    "selector": "@s"
                 }
             ]
         }
