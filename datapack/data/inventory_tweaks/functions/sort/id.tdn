@@ -22,7 +22,9 @@ if score deref $id matches 0 function {
         -predicate {
             -equipment {
                 -mainhand {
-                    -items: [minecraft:air]
+                    -count {
+                        -max 0
+                    }
                 }
             }
         }
