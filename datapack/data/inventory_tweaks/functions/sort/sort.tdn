@@ -17,7 +17,7 @@ tag @s add $self_tag
 # This whole thing happens in overworld
 in overworld function /in_overworld {
     # Summon the armor stands in mass
-    summon minecraft:armor_stand ${load_coords(0, 0, 0)} {
+    summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
         Marker: 1b,
         Invisible: 1b,
         Tags: [$unique_tag],
@@ -47,7 +47,7 @@ in overworld function /in_overworld {
                 if score deref $id matches 0 kill @s
                 # If the id is not 0, copy it to the armor stand's Pos[1], scale down
                 unless score deref $id matches 0
-                    set @s.Pos[1] * ${Math.pow(2, -15)} (double) = $id
+                    set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
             }
         )
         function /tree
@@ -59,8 +59,9 @@ in overworld function /in_overworld {
     set ${shulker_box(0)}.Items = []
     set $slot_id = 0
     
-    as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,sort=nearest] function /../insert {
+    as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function /../insert {
         function inventory_tweaks:sort/tree
+        tellraw @a ${new text_component(pointer<${shulker_box(0)}.Items>)}
         kill @s
         set $slot_id += 1
     }
