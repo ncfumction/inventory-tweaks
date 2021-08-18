@@ -28,8 +28,8 @@ in overworld function /in_overworld {
     # Operate on the passenger armor stands
     var slot = anonymous_score()
     set $slot = 0
+    # Change the armor stands' Pos based on the items
     as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands {
-        # Change the armor stands' Pos based on the items
         eval generateFunctionTree(
             resource</tree>,
             int_range<0..27>,
@@ -41,19 +41,18 @@ in overworld function /in_overworld {
                 # Copy the item to the armor stand's mainhand
                 if score deref $slot matches $i
                     item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,limit=1] ${'container.' + (i + 9)}
-                # Get the item id
-                function inventory_tweaks:sort/id
-                # If the armor stand doesn't hold anything, kill it
-                if score deref $id matches 0 kill @s
-                # If the id is not 0, copy it to the armor stand's Pos[1], scale down
-                unless score deref $id matches 0
-                    set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
             }
         )
+        # Copy the corresponding item to the armor stand's mainhand
         function /tree
+        # Get the item id
+        function inventory_tweaks:sort/id
+        # If the armor stand doesn't hold anything, kill it
+        if score deref $id matches 0 kill @s
+        # If the id is not 0, copy it to the armor stand's Pos[1], scale down
+        unless score deref $id matches 0
+            set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
         set $slot += 1
-        
-        tellraw @a ${new text_component(pointer<@s.Pos[1]>)}
     }
     # Place items from the armor stands to a shulker box based on their Pos[1]
     set ${shulker_box(0)}.Items = []
@@ -61,7 +60,6 @@ in overworld function /in_overworld {
     
     as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function /../insert {
         function inventory_tweaks:sort/tree
-        item replace entity @p weapon.mainhand from entity @s weapon.mainhand
         kill @s
         set $slot_id += 1
     }
