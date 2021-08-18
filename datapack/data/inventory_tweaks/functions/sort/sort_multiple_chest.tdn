@@ -65,8 +65,8 @@ var new_count = anonymous_score()
 var storage = anonymous_storage()
 
 set $slot_id = 0
-set ${shulker_box(0)}.Items = []
-set ${shulker_box(1)}.Items = []
+in overworld set ${shulker_box(0)}.Items = []
+in overworld set ${shulker_box(1)}.Items = []
 # Next, put the items from the armor stands to the containers
 in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
     # This is the special case
