@@ -29,7 +29,6 @@ in overworld function /in_overworld {
     var slot = anonymous_score()
     set $slot = 0
     as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands {
-        say hi
         # Change the armor stands' Pos based on the items
         eval generateFunctionTree(
             resource</tree>,
@@ -54,6 +53,7 @@ in overworld function /in_overworld {
         function /tree
         set $slot += 1
         
+        tellraw @a ${new text_component(pointer<@s.Pos[1]>)}
     }
     # Place items from the armor stands to a shulker box based on their Pos[1]
     set ${shulker_box(0)}.Items = []
