@@ -1,7 +1,7 @@
 @ require inventory_tweaks:sort/sort_multiple_chest
 
-summon minecraft:marker ~ ~ ~ {Tags:[$marker_tag]}
-set @e[type=minecraft:marker] -> $marker_id = 0
 summon minecraft:marker ~ ~-1 ~ {Tags:[$marker_tag]}
+set @e[type=minecraft:marker] -> $marker_id = 0
+summon minecraft:marker ~ ~ ~ {Tags:[$marker_tag]}
 as @e[type=minecraft:marker] unless entity @s[scores={$marker_id=isset}] set @s -> $marker_id = 1
 function inventory_tweaks:sort/sort_multiple_chest
