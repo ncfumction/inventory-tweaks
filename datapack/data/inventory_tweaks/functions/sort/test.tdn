@@ -3,6 +3,7 @@ _loot_table / {
     -functions [
         {
             -function set_lore
+            -entity this
             -lore [
                 {
                     "selector": "@s"
