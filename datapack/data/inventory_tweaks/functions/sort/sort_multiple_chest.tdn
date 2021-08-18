@@ -80,6 +80,17 @@ in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$
         item replace block ${shulker_box(0)} container.0 with minecraft:air
         # Store the new number of items in the last slot
         set $new_count = ${shulker_box(1)}.Items[-1].Count
+        # If the number unchanged, continue like normal
+        if score deref $new_count = deref $old_count function {
+            set $empty_slots = 27
+            set $storage = ${shulker_box(1)}.Items
+            set ${shulker_box(1)}.Items = []
+            as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
+                set (~ ~ ~).Items = $storage
+                kill @s
+                set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
+            }
+        }
         # If the number changed, subtract the difference from the mainhand count
         unless score deref $new_count = deref $old_count function {
             set $new_count -= $old_count
