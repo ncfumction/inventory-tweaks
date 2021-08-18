@@ -1,3 +1,5 @@
-summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000}
-summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000}
-if entity @e[nbt={Item:{id:"minecraft:stick",Count:2b}}] run say hi
+summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000s}
+summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000s}
+_schedule /a {
+    if entity @e[nbt={Item:{id:"minecraft:stick",Count:2b}}] run say hi
+}
