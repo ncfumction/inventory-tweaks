@@ -1,0 +1,60 @@
+@ require trident-util:generators
+@ require anonymous_resources:storage
+@ require inventory_tweaks:sort/id
+@ require inventory_tweaks:sort/tree
+
+
+
+var marker_tag = get_unique('marker')
+var summon_tag = get_unique('summon')
+var unique_tag = get_unique('unique')
+var marker_id = anonymous_objective('marker_id')
+
+
+# First, get all the items into armor stands
+# and put the armor stands in the correct y coordinates
+at @e[type=minecraft:marker,tag=$marker_tag] function /as_markers {
+    # Summon the armor stands in mass
+    in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
+        Marker: 1b,
+        Invisible: 1b,
+        Tags: [$unique_tag],
+        Passengers: ${new nbt([nbt<{id:'minecraft:armor_stand', Tags:[$summon_tag, $marker_tag]}>] * 27)}
+    }
+    # Kill the root armor stand
+    kill @e[type=minecraft:armor_stand,tag=$unique_tag]
+    
+    var slot = anonymous_score()
+    set $slot = 0
+    # Operate on the passenger armor stands
+    as @e[type=minecraft:armor_stand,tag=$marker_tag] function /../sort_armor_stands {
+        eval generateFunctionTree(
+            resource</tree>,
+            int_range<0..27>,
+            4,
+            function (range, next) {
+                if score deref $slot matches $range function $next
+            },
+            function (i) {
+                # Copy the item to the armor stand's mainhand
+                if score deref $slot matches $i
+                    item replace entity @s weapon.mainhand from block ~ ~ ~ ${'container.' + i}
+            }
+        )
+        # Copy the corresponding item to the armor stand's mainhand
+        function /tree
+        # Get the item id
+        function inventory_tweaks:sort/id
+        # If the armor stand doesn't hold anything, kill it
+        if score deref $id matches 0 kill @s
+        # If the id is not 0, copy it to the armor stand's Pos[1], scale down
+        unless score deref $id matches 0
+            set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
+        set $slot += 1
+        
+        tag @s remove $marker_tag
+    }
+}
+
+# Next, put the items from the armor stands to the containers
+

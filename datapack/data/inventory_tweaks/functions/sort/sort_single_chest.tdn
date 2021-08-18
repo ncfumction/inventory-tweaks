@@ -21,10 +21,10 @@ in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
 }
 # Kill the root armor stand
 kill @e[type=minecraft:armor_stand,tag=$unique_tag]
-# Operate on the passenger armor stands
+
 var slot = anonymous_score()
 set $slot = 0
-# Change the armor stands' Pos based on the items
+# Operate on the passenger armor stands
 as @e[type=minecraft:armor_stand,tag=$summon_tag] function /sort_armor_stands {
     eval generateFunctionTree(
         resource</tree>,

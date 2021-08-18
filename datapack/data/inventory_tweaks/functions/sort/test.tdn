@@ -1,5 +1,24 @@
-summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000s}
-summon minecraft:item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b},PickupDelay:1000s}
-_schedule /a {
-    if entity @e[nbt={Item:{id:"minecraft:stick",Count:2b}}] run say hi
+_loot_table / {
+    -type gift
+    -functions [
+        {
+            -function set_lore
+            -lore [
+                {
+                    "selector": "@p"
+                }
+            ]
+        }
+    ]
+    -pools [
+        {
+            -rolls 1
+            -entries [
+                {
+                    -type minecraft:item
+                    -name minecraft:black_concrete
+                }
+            ]
+        }
+    ]
 }
