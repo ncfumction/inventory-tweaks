@@ -13,7 +13,7 @@ var marker_id = anonymous_objective('marker_id')
 
 # First, get all the items into armor stands
 # and put the armor stands in the correct y coordinates
-at @e[type=minecraft:marker,tag=$marker_tag] function /as_markers {
+at @e[type=minecraft:marker,tag=$marker_tag] function {
     # Summon the armor stands in mass
     in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
         Marker: 1b,
@@ -27,7 +27,7 @@ at @e[type=minecraft:marker,tag=$marker_tag] function /as_markers {
     var slot = anonymous_score()
     set $slot = 0
     # Operate on the passenger armor stands
-    as @e[type=minecraft:armor_stand,tag=$marker_tag] function /../sort_armor_stands {
+    as @e[type=minecraft:armor_stand,tag=$marker_tag] function {
         eval generateFunctionTree(
             resource</tree>,
             int_range<0..27>,
@@ -56,5 +56,81 @@ at @e[type=minecraft:marker,tag=$marker_tag] function /as_markers {
     }
 }
 
-# Next, put the items from the armor stands to the containers
+# Number of maximum empty slot current container has
+var empty_slots = anonymous_score()
+set $empty_slots = 27
 
+var old_count = anonymous_score()
+var new_count = anonymous_score()
+var storage = anonymous_storage()
+
+set $slot_id = 0
+set ${shulker_box(0)}.Items = []
+set ${shulker_box(1)}.Items = []
+# Next, put the items from the armor stands to the containers
+in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
+    # This is the special case
+    if score deref $empty_slots matches -1 function {
+        # Store the number of items in the last slot
+        set $old_count = ${shulker_box(1)}.Items[-1].Count
+        # Loot insert current mainhand to the shulker box
+        item replace block ${shulker_box(0)} container.0 from entity @s weapon.mainhand
+        loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
+        item replace block ${shulker_box(0)} container.0 with minecraft:air
+        # Store the new number of items in the last slot
+        set $new_count = ${shulker_box(1)}.Items[-1].Count
+        # If the number changed, subtract the difference from the mainhand count
+        unless score deref $new_count = deref $old_count function {
+            set $new_count -= $old_count
+            set $old_count = @s.HandItems[0].Count
+            set $old_count -= $new_count
+            # If the mainhand count is 0, move to the next armor stand
+            # Otherwise, store the count back and place the items from the shulker box to the container
+            unless score deref $old_count matches 0 function {
+                set @s.HandItems[0].Count (byte) = $old_count
+                set $empty_slots = 27
+                set $storage = ${shulker_box(1)}.Items
+                set ${shulker_box(1)}.Items = []
+                as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
+                    set (~ ~ ~).Items = $storage
+                    kill @s
+                    set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
+                }
+            }
+        }
+    }
+    
+    # Not special case
+    if score deref $empty_slots matches 0.. function {
+        function inventory_tweaks:sort/tree
+        kill @s
+        set $slot_id += 1
+        # At most the same number as empty slots will be inserted
+        if score deref $slot_id = deref $empty_slots function {
+            # Insert the items to another shulker box to merge
+            loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
+            set ${shulker_box(0)}.Items = []
+            
+            # Count the number of occupied slots
+            execute store result score deref $empty_slots if data block ${shulker_box(1)} Items[] noop
+            # If all slots are occupied, set empty slots to -1 to trigger special treatment for next armor stand
+            if score deref $empty_slots matches 27 set $empty_slots = -1
+            # If not all slots are occupied, calculate number of empty slots
+            if score deref $empty_slots matches 0..26 function {
+                set $empty_slots *= -1
+                set $empty_slots += 27
+            }
+        }
+    }
+}
+set $storage = ${shulker_box(1)}.Items
+set ${shulker_box(1)}.Items = []
+as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
+    set (~ ~ ~).Items = $storage
+    kill @s
+    set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
+}
+as @e[type=minecraft:marker,tag=$marker_tag] at @s function {
+    set (~ ~ ~).Items = []
+    kill @s
+}

@@ -25,7 +25,7 @@ kill @e[type=minecraft:armor_stand,tag=$unique_tag]
 var slot = anonymous_score()
 set $slot = 0
 # Operate on the passenger armor stands
-as @e[type=minecraft:armor_stand,tag=$summon_tag] function /sort_armor_stands {
+as @e[type=minecraft:armor_stand,tag=$summon_tag] function {
     eval generateFunctionTree(
         resource</tree>,
         int_range<0..27>,
@@ -54,7 +54,7 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag] function /sort_armor_stands {
 in overworld set ${shulker_box(0)}.Items = []
 set $slot_id = 0
 
-in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function /../insert {
+in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
     function inventory_tweaks:sort/tree
     kill @s
     set $slot_id += 1

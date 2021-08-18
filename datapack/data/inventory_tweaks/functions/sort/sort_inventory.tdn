@@ -15,7 +15,7 @@ var unique_tag = get_unique('unique')
 tag @s add $self_tag
 
 # This whole thing happens in overworld
-in overworld function /in_overworld {
+in overworld function {
     # Summon the armor stands in mass
     summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
         Marker: 1b,
@@ -29,7 +29,7 @@ in overworld function /in_overworld {
     var slot = anonymous_score()
     set $slot = 0
     # Change the armor stands' Pos based on the items
-    as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands {
+    as @e[type=minecraft:armor_stand,tag=$summon_tag] function {
         eval generateFunctionTree(
             resource</tree>,
             int_range<0..27>,
@@ -58,7 +58,7 @@ in overworld function /in_overworld {
     set ${shulker_box(0)}.Items = []
     set $slot_id = 0
     
-    as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function /../insert {
+    as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
         function inventory_tweaks:sort/tree
         kill @s
         set $slot_id += 1
