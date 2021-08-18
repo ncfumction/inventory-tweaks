@@ -1,25 +1,5 @@
-_loot_table / {
-    -type gift
-    -functions [
-        {
-            -function set_lore
-            -entity this
-            -lore [
-                {
-                    "selector": "@p"
-                }
-            ]
-        }
-    ]
-    -pools [
-        {
-            -rolls 1
-            -entries [
-                {
-                    -type minecraft:item
-                    -name minecraft:black_concrete
-                }
-            ]
-        }
-    ]
-}
+@ require inventory_tweaks:sort/sort_multiple_chest
+
+summon minecraft:marker ~ ~ ~ {Tags:[$marker_tag]}
+set @e[type=minecraft:marker,dx=0] -> $marker_id = 0
+function inventory_tweaks:sort/sort_multiple_chest
