@@ -25,7 +25,7 @@ kill @e[type=minecraft:armor_stand,tag=$unique_tag]
 var slot = anonymous_score()
 set $slot = 0
 # Change the armor stands' Pos based on the items
-as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands {
+as @e[type=minecraft:armor_stand,tag=$summon_tag] function /sort_armor_stands {
     eval generateFunctionTree(
         resource</tree>,
         int_range<0..27>,
@@ -36,7 +36,7 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands
         function (i) {
             # Copy the item to the armor stand's mainhand
             if score deref $slot matches $i
-                item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,limit=1] ${'container.' + (i + 9)}
+                item replace entity @s weapon.mainhand from block ~ ~ ~ ${'container.' + i}
         }
     )
     # Copy the corresponding item to the armor stand's mainhand
