@@ -40,7 +40,7 @@ in overworld function /in_overworld {
             function (i) {
                 # Copy the item to the armor stand's mainhand
                 if score deref $slot matches $i
-                    item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,dx=0] ${'container.' + (i + 9)}
+                    item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,dx=0,limit=1] ${'container.' + (i + 9)}
                 # Get the item id
                 function inventory_tweaks:sort/id
                 # If the armor stand doesn't hold anything, kill it
