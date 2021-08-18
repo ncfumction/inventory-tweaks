@@ -22,9 +22,7 @@ if score deref $id matches 0 function {
         -predicate {
             -equipment {
                 -mainhand {
-                    -count {
-                        -max 0
-                    }
+                    -count 0
                 }
             }
         }
