@@ -29,6 +29,7 @@ in overworld function /in_overworld {
     var slot = anonymous_score()
     set $slot = 0
     as @e[type=minecraft:armor_stand,tag=$summon_tag] function /../sort_armor_stands {
+        say hi
         # Change the armor stands' Pos based on the items
         eval generateFunctionTree(
             resource</tree>,
