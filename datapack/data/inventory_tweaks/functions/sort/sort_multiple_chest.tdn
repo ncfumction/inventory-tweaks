@@ -123,8 +123,12 @@ in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$
         }
     }
 }
-set $storage = ${shulker_box(1)}.Items
-set ${shulker_box(1)}.Items = []
+
+in overworld function {
+    loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
+    set $storage = ${shulker_box(1)}.Items
+    set ${shulker_box(1)}.Items = []
+}
 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
     set (~ ~ ~).Items = $storage
     kill @s
@@ -134,3 +138,4 @@ as @e[type=minecraft:marker,tag=$marker_tag] at @s function {
     set (~ ~ ~).Items = []
     kill @s
 }
+
