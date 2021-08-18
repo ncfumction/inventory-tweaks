@@ -65,6 +65,7 @@ var new_count = anonymous_score()
 var storage = anonymous_storage()
 
 set $slot_id = 0
+set $storage = []
 in overworld set ${shulker_box(0)}.Items = []
 in overworld set ${shulker_box(1)}.Items = []
 # Next, put the items from the armor stands to the containers
