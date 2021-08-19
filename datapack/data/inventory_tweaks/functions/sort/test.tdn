@@ -1,6 +1,6 @@
 define function /../a {
     for (var i = 0; i < 27; i++) {
-        item replace entity @s ${'container.' + i} from block ${shulker_box(0)} ${'container.' + i}
+        item replace entity @s ${'container.' + i} from block ~ ~ ~ ${'container.' + i}
     }
 }
 define function /../b {
