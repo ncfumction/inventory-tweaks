@@ -1,13 +1,19 @@
 define function /a {
     for (var i = 0; i < 500; i++) {
         for (var i = 0; i < 27; i++) {
-            item replace block ~ ~ ~ ${'container.' + i} from entity @s ${'container.' + i}
+            item replace entity @s ${'container.' + i} with minecraft:stick
         }
     }
 }
 define function /b {
+    var list = []
+    for (var i = 0; i < 27; i++) {
+        eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b}>)
+    }
+    eval list = new nbt(list)
+    
     for (var i = 0; i < 500; i++) {
-        set ${shulker_box(0)}.Items = @s.Inventory
-        loot replace block ~ ~ ~ container.0 mine ${shulker_box(0)} air{drop_contents:1b}
+        set ${shulker_box(0)}.Items = $list
+        loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
     }
 }
