@@ -6,7 +6,7 @@ return choice(
         RESOURCE_LOCATION
             .storeVar('location')
             .hint('The location of the tag'),
-        INTERPOLATION_VALUE
+        INTERPOLATION_BLOCK
             .storeVar('values')
             .hint('List of entries in the tag')
             .optional()

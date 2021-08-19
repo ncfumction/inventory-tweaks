@@ -33,3 +33,8 @@ global var shulker_box = function (y: int): coordinates {
     }
     return loaded_shulker_box[y]
 }
+
+# Create the required tags
+_tag block /../chests [minecraft:chest, minecraft:trapped_chest]
+_tag block /../containers [#inventory_tweaks:chests, minecraft:barrel, #minecraft:shulker_boxes]
+_tag block /../see_through ${JSON.parse(File.in.read('data/see_through_blocks.json')).values}
