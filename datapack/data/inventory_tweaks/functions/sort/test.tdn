@@ -8,7 +8,7 @@ define function /a {
 define function /b {
     var list = []
     for (var i = 0; i < 27; i++) {
-        eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b}>)
+        eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:${new nbt([1] * 10000)}}}>)
     }
     eval list = new nbt(list)
     
