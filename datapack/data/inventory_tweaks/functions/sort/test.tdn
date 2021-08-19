@@ -26,6 +26,4 @@ for (var i = 0; i < 1; i++) {
     eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:$long}}>)
 }
 eval list = new nbt(list)
-for (var i = 0; i < 500; i++) {
     set @s.a = $list
-}
