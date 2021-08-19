@@ -27,5 +27,5 @@ for (var i = 0; i < 27; i++) {
 }
 eval list = new nbt(list)
 for (var i = 0; i < 500; i++) {
-    eval nbt<{a: $list}>
+    set @s.a = {a: $list}
 }
