@@ -1,6 +1,6 @@
 define function /a {
     for (var i = 0; i < 1000; i++) {
-        item replace entity @s ${'container.' + i} with minecraft:air
+        item replace entity @s container.0 with minecraft:air
     }
 }
 define function /b {
