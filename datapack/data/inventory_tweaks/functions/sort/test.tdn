@@ -1,21 +1,8 @@
-define function /../a {
-    for (var i = 0; i < 27; i++) {
-        item replace entity @s ${'container.' + i} from block ~ ~ ~ ${'container.' + i}
-    }
-}
-define function /../b {
-    loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
-}
-
-
 define function /a {
     for (var i = 0; i < 1000; i++) {
-        function /../../a
+        item replace entity @s ${'container.' + i} with minecraft:air
     }
 }
 define function /b {
-    set ${shulker_box(0)}.Items = (~ ~ ~).Items
-    for (var i = 0; i < 1000; i++) {
-        function /../../b
-    }
+    loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
 }
