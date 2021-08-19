@@ -4,7 +4,7 @@ define function /../a {
     }
 }
 define function /../b {
-    data modify block ~ ~ ~ Items set from entity @s Inventory
+    data modify block ~ ~ ~ Items set from block ~ ~ ~ Items
 }
 
 
