@@ -22,12 +22,12 @@ summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
     Passengers: ${new nbt([nbt<{id:'minecraft:armor_stand', Tags:[$summon_tag]}>] * 27)}
 }
 # Kill the root armor stand
-kill @e[type=minecraft:armor_stand,tag=$unique_tag]
+kill @e[type=minecraft:armor_stand,tag=$unique_tag,x=$load_x,y=-2,z=$load_z,dy=4]
 # Operate on the passenger armor stands
 var slot = anonymous_score()
 set $slot = 0
 # Change the armor stands' Pos based on the items
-as @e[type=minecraft:armor_stand,tag=$summon_tag] function {
+as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4] function {
     eval generateFunctionTree(
         resource</tree>,
         int_range<0..27>,
