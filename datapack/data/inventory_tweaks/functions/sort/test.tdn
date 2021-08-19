@@ -1,7 +1,7 @@
 define function /a {
     for (var i = 0; i < 500; i++) {
         for (var i = 0; i < 9; i++) {
-            item replace entity @s ${'container.' + i} with stick
+            item replace block ~ ~ ~ ${'container.' + i} with stick
         }
     }
 }
@@ -19,6 +19,6 @@ define function /b {
             {id:"minecraft:stick",Count:1b,Slot:8b},
             {id:"minecraft:stick",Count:1b,Slot:9b}
         ]
-        loot replace entity @s container.0 9 mine ${shulker_box(0)} air{drop_contents:1b}
+        loot replace block ~ ~ ~ container.0 9 mine ${shulker_box(0)} air{drop_contents:1b}
     }
 }
