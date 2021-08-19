@@ -17,7 +17,24 @@ define function /b {
             {id:"minecraft:stick",Count:1b,Slot:6b},
             {id:"minecraft:stick",Count:1b,Slot:7b},
             {id:"minecraft:stick",Count:1b,Slot:8b},
-            {id:"minecraft:stick",Count:1b,Slot:9b}
+            {id:"minecraft:stick",Count:1b,Slot:9b},
+            {id:"minecraft:stick",Count:1b,Slot:10b},
+            {id:"minecraft:stick",Count:1b,Slot:11b},
+            {id:"minecraft:stick",Count:1b,Slot:12b},
+            {id:"minecraft:stick",Count:1b,Slot:13b},
+            {id:"minecraft:stick",Count:1b,Slot:14b},
+            {id:"minecraft:stick",Count:1b,Slot:15b},
+            {id:"minecraft:stick",Count:1b,Slot:16b},
+            {id:"minecraft:stick",Count:1b,Slot:17b},
+            {id:"minecraft:stick",Count:1b,Slot:18b},
+            {id:"minecraft:stick",Count:1b,Slot:19b},
+            {id:"minecraft:stick",Count:1b,Slot:20b},
+            {id:"minecraft:stick",Count:1b,Slot:21b},
+            {id:"minecraft:stick",Count:1b,Slot:22b},
+            {id:"minecraft:stick",Count:1b,Slot:23b},
+            {id:"minecraft:stick",Count:1b,Slot:24b},
+            {id:"minecraft:stick",Count:1b,Slot:25b},
+            {id:"minecraft:stick",Count:1b,Slot:26b}
         ]
         loot replace entity @s container.0 9 mine ${shulker_box(0)} air{drop_contents:1b}
     }
