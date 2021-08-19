@@ -10,11 +10,11 @@ define function /../b {
 
 define function /a {
     for (var i = 0; i < 1000; i++) {
-        function a
+        function /../a
     }
 }
 define function /b {
     for (var i = 0; i < 1000; i++) {
-        function b
+        function /../b
     }
 }
