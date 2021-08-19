@@ -1,9 +1,9 @@
-define function a {
+define function /../a {
     for (var i = 0; i < 27; i++) {
         item replace block ~ ~ ~ ${'container.' + i} from entity @s ${'container.' + i}
     }
 }
-define function b {
+define function /../b {
     data modify block ~ ~ ~ Items set from entity @s Inventory
 }
 
