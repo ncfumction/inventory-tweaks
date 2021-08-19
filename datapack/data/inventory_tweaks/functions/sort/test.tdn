@@ -1,5 +1,5 @@
 define function /a {
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 29000; i++) {
         item replace entity @s container.0 with minecraft:air
     }
 }
