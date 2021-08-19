@@ -7,6 +7,6 @@ define function /b {
     for (var i = 0; i < 500; i++) {
         set ${shulker_box(0)}.Items = []
         loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
-        loot replace entity @s container.9 mine ${shulker_box(0)} air{drop_contents:1b}
+        loot replace entity @s container.27 9 mine ${shulker_box(0)} air{drop_contents:1b}
     }
 }
