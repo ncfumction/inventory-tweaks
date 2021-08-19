@@ -1,4 +1,5 @@
 @ on compile
+@ priority 100000
 @ require anonymous_resources:hash
 
 # Install the yellow shulker box loot table
@@ -35,6 +36,9 @@ global var shulker_box = function (y: int): coordinates {
 }
 
 # Create the required tags
-_tag block /../chests [minecraft:chest, minecraft:trapped_chest]
-_tag block /../containers [#inventory_tweaks:chests, minecraft:barrel, #minecraft:shulker_boxes]
-_tag block /../see_through ${JSON.parse(File.in.read('data/see_through_blocks.json')).values}
+define function / {
+    @ tag remove
+    _tag block /../chests [minecraft:chest, minecraft:trapped_chest]
+    _tag block /../containers [#inventory_tweaks:chests, minecraft:barrel, #minecraft:shulker_boxes]
+    _tag block /../see_through ${JSON.parse(File.in.read('data/see_through_blocks.json')).values}
+}
