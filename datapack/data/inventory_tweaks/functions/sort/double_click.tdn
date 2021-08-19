@@ -1,0 +1,44 @@
+@ require anonymous_resources:score
+
+_advancement / {
+    -trigger minecraft:inventory_changed
+    -function /
+}
+
+var delay = 2
+
+var countdown = anonymous_objective()
+in overworld item replace block ${shulker_box(0)} container.0 from entity @s container.9
+set @s[scores={$countdown=0..$delay}] -> $countdown -= 1
+if score @s $countdown matches 1000
+    in overworld if data block ${shulker_box(0)} Items[{Slot: 0b}]
+    set @s -> $countdown = $delay
+in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
+    if score @s -> $countdown matches 0..$delay
+        in overworld function inventory_tweaks:sort/sort_inventory
+    set @s -> $countdown = 1000
+}
+
+var countdown = anonymous_objective()
+in overworld item replace block ${shulker_box(0)} container.0 from entity @s container.10
+set @s[scores={$countdown=0..$delay}] -> $countdown -= 1
+if score @s $countdown matches 1000
+    in overworld if data block ${shulker_box(0)} Items[{Slot: 0b}]
+    set @s -> $countdown = $delay
+in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
+    if score @s -> $countdown matches 0..$delay
+        at @s function inventory_tweaks:sort/sort_chest
+    set @s -> $countdown = 1000
+}
+
+var countdown = anonymous_objective()
+in overworld item replace block ${shulker_box(0)} container.0 from entity @s container.11
+set @s[scores={$countdown=0..$delay}] -> $countdown -= 1
+if score @s $countdown matches 1000
+    in overworld if data block ${shulker_box(0)} Items[{Slot: 0b}]
+    set @s -> $countdown = $delay
+in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
+    if score @s -> $countdown matches 0..$delay
+        at @s function inventory_tweaks:sort/transfer
+    set @s -> $countdown = 1000
+}
