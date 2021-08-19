@@ -1,0 +1,75 @@
+@ require inventory_tweaks:sort/sort_multiple_chest
+
+var location = resource</>
+
+_tag block inventory_tweaks:chests ['minecraft:chest', 'minecraft:trapped_chest']
+set highest -> $marker_id = 0
+
+if block ~ ~ ~ #inventory_tweaks:chests[type=right] function {
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=east] function {
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~-1 {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=west] function {
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~1 {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=north] function {
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~-1 ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=south] function {
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~1 ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+}
+if block ~ ~ ~ #inventory_tweaks:chests[type=left] function {
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=east] function {
+        summon minecraft:marker ~ ~ ~1 {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=west] function {
+        summon minecraft:marker ~ ~ ~-1 {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=north] function {
+        summon minecraft:marker ~1 ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+    if block ~ ~ ~ #inventory_tweaks:chests[facing=south] function {
+        summon minecraft:marker ~-1 ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+        summon minecraft:marker ~ ~ ~ {Tags: [$marker_tag]}
+        as @e[type=minecraft:marker,tag=$marker_tag] unless score @s $marker_id isset set @s -> $marker_id = highest -> $marker_id
+        set highest -> $marker_id += 1
+    }
+}

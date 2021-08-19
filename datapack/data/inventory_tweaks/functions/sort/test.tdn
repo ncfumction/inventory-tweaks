@@ -19,9 +19,10 @@
 #    }
 #}
 #
-
-var list = new nbt([1] * 1000)
-for (var i = 0; i < 100; i++) {
-    set @s.a = $list
-}
-
+#
+#var list = new nbt([1] * 1000)
+#for (var i = 0; i < 100; i++) {
+#    set @s.a = $list
+#}
+#
+#

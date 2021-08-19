@@ -14,62 +14,59 @@ var unique_tag = get_unique('unique')
 # I'm not using using because that'll result in more indentation
 tag @s add $self_tag
 
-# This whole thing happens in overworld
-in overworld function {
-    # Summon the armor stands in mass
-    summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
-        Marker: 1b,
-        Invisible: 1b,
-        Tags: [$unique_tag],
-        Passengers: ${new nbt([nbt<{id:'minecraft:armor_stand', Tags:[$summon_tag]}>] * 27)}
-    }
-    # Kill the root armor stand
-    kill @e[type=minecraft:armor_stand,tag=$unique_tag]
-    # Operate on the passenger armor stands
-    var slot = anonymous_score()
-    set $slot = 0
-    # Change the armor stands' Pos based on the items
-    as @e[type=minecraft:armor_stand,tag=$summon_tag] function {
-        eval generateFunctionTree(
-            resource</tree>,
-            int_range<0..27>,
-            4,
-            function (range, next) {
-                if score deref $slot matches $range function $next
-            },
-            function (i) {
-                # Copy the item to the armor stand's mainhand
-                if score deref $slot matches $i
-                    item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,limit=1] ${'container.' + (i + 9)}
-            }
-        )
-        # Copy the corresponding item to the armor stand's mainhand
-        function /tree
-        # Get the item id
-        function inventory_tweaks:sort/id
-        # If the armor stand doesn't hold anything, kill it
-        if score deref $id matches 0 kill @s
-        # If the id is not 0, copy it to the armor stand's Pos[1], scale down
-        unless score deref $id matches 0
-            set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
-        set $slot += 1
-    }
-    # Place items from the armor stands to a shulker box based on their Pos[1]
-    set ${shulker_box(0)}.Items = []
-    set $slot_id = 0
-    
-    as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
-        function inventory_tweaks:sort/tree
-        kill @s
-        set $slot_id += 1
-    }
-    
-    # Loot the shulker box to another shulker box to merge items
-    set ${shulker_box(1)}.Items = []
-    loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
-    
-    # Loot the final shulker box to the player
-    loot replace entity @s container.9 mine ${shulker_box(1)} air{drop_contents:1b}
-
+# Summon the armor stands in mass
+summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
+    Marker: 1b,
+    Invisible: 1b,
+    Tags: [$unique_tag],
+    Passengers: ${new nbt([nbt<{id:'minecraft:armor_stand', Tags:[$summon_tag]}>] * 27)}
 }
+# Kill the root armor stand
+kill @e[type=minecraft:armor_stand,tag=$unique_tag]
+# Operate on the passenger armor stands
+var slot = anonymous_score()
+set $slot = 0
+# Change the armor stands' Pos based on the items
+as @e[type=minecraft:armor_stand,tag=$summon_tag] function {
+    eval generateFunctionTree(
+        resource</tree>,
+        int_range<0..27>,
+        4,
+        function (range, next) {
+            if score deref $slot matches $range function $next
+        },
+        function (i) {
+            # Copy the item to the armor stand's mainhand
+            if score deref $slot matches $i
+                item replace entity @s weapon.mainhand from entity @a[tag=$self_tag,limit=1] ${'container.' + (i + 9)}
+        }
+    )
+    # Copy the corresponding item to the armor stand's mainhand
+    function /tree
+    # Get the item id
+    function inventory_tweaks:sort/id
+    # If the armor stand doesn't hold anything, kill it
+    if score deref $id matches 0 kill @s
+    # If the id is not 0, copy it to the armor stand's Pos[1], scale down
+    unless score deref $id matches 0
+        set @s.Pos[1] * ${Math.pow(2, -31)} (double) = $id
+    set $slot += 1
+}
+# Place items from the armor stands to a shulker box based on their Pos[1]
+set ${shulker_box(0)}.Items = []
+set $slot_id = 0
+
+as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,sort=nearest] function {
+    function inventory_tweaks:sort/tree
+    kill @s
+    set $slot_id += 1
+}
+
+# Loot the shulker box to another shulker box to merge items
+set ${shulker_box(1)}.Items = []
+loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
+
+# Loot the final shulker box to the player
+loot replace entity @s container.9 mine ${shulker_box(1)} air{drop_contents:1b}
+
 tag @s remove $self_tag
