@@ -1,7 +1,20 @@
-@ require inventory_tweaks:sort/sort_multiple_chest
+define function a {
+    for (var i = 0; i < 27; i++) {
+        item replace block ~ ~ ~ ${'container.' + i} from entity @s ${'container.' + i}
+    }
+}
+define function b {
+    data modify block ~ ~ ~ Items set from entity @s Inventory
+}
 
-summon minecraft:marker ~ ~-1 ~ {Tags:[$marker_tag]}
-set @e[type=minecraft:marker] -> $marker_id = 0
-summon minecraft:marker ~ ~ ~ {Tags:[$marker_tag]}
-as @e[type=minecraft:marker] unless entity @s[scores={$marker_id=isset}] set @s -> $marker_id = 1
-function inventory_tweaks:sort/sort_multiple_chest
+
+define function /a {
+    for (var i = 0; i < 1000; i++) {
+        function a
+    }
+}
+define function /b {
+    for (var i = 0; i < 1000; i++) {
+        function b
+    }
+}

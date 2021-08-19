@@ -82,8 +82,6 @@ in overworld as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$
         set $new_count = ${shulker_box(1)}.Items[-1].Count
         # If the number unchanged, continue like normal
         if score deref $new_count = deref $old_count function {
-            tellraw @a ${new text_component(pointer<${shulker_box(0)}.Items>)}
-            tellraw @a ${new text_component(pointer<${shulker_box(1)}.Items>)}
             set $empty_slots = 27
             set $storage = ${shulker_box(1)}.Items
             set ${shulker_box(1)}.Items = []
