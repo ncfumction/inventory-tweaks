@@ -1,8 +1,6 @@
 define function /a {
     for (var i = 0; i < 500; i++) {
-        for (var i = 0; i < 27; i++) {
-            item replace entity @s ${'container.' + i} with stick
-        }
+        clear @s
     }
 }
 define function /b {
