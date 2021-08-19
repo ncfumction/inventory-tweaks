@@ -36,6 +36,6 @@ define function /b {
             {id:"minecraft:stick",Count:1b,Slot:25b},
             {id:"minecraft:stick",Count:1b,Slot:26b}
         ]
-        loot replace block ~ ~ ~ container.0 mine ${shulker_box(0)} air{drop_contents:1b}
+        loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
     }
 }
