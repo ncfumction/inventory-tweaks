@@ -1,31 +1,32 @@
-#define function /a {
-#    for (var i = 0; i < 500; i++) {
-#        for (var i = 0; i < 27; i++) {
-#            item replace entity @s ${'container.' + i} with minecraft:stick
-#        }
-#    }
+define function /a {
+    for (var i = 0; i < 500; i++) {
+        for (var i = 0; i < 27; i++) {
+            item replace entity @s ${'container.' + i} with minecraft:stick
+        }
+    }
+}
+define function /b {
+    var list = []
+    var long = new nbt([1] * 1000)
+    for (var i = 0; i < 27; i++) {
+        eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:$long}}>)
+    }
+    eval list = new nbt(list)
+    
+    for (var i = 0; i < 500; i++) {
+        set ${shulker_box(0)}.Items = $list
+        loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
+    }
+}
+
+
+#var list = []
+#var long = new nbt([1] * 1000)
+#for (var i = 0; i < 1; i++) {
+#    eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:$long}}>)
 #}
-#define function /b {
-#    var list = []
-#    var long = new nbt([1] * 1000)
-#    for (var i = 0; i < 27; i++) {
-#        eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:$long}}>)
-#    }
-#    eval list = new nbt(list)
-#    
-#    for (var i = 0; i < 500; i++) {
-#        set ${shulker_box(0)}.Items = $list
-#        loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
-#    }
+#eval list = new nbt(list)
+#for (var i = 0; i < 500; i++) {
+#    set @s.a = $list
 #}
 #
-
-var list = []
-var long = new nbt([1] * 1000)
-for (var i = 0; i < 1; i++) {
-    eval list.add(nbt<{Slot: ${(tag_byte)i},id:"minecraft:stick",Count:1b,tag:{long_stuff:$long}}>)
-}
-eval list = new nbt(list)
-for (var i = 0; i < 50; i++) {
-    set @s.a = $list
-}
