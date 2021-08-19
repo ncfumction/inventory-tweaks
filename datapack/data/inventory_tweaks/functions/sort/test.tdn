@@ -1,8 +1,10 @@
 define function /a {
-    for (var i = 0; i < 29000; i++) {
+    for (var i = 0; i < 10000; i++) {
         item replace block ~ ~ ~ container.0 with minecraft:air
     }
 }
 define function /b {
-    loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
+    for (var i = 0; i < 10000; i++) {
+        loot replace entity @s container.0 1 mine ${shulker_box(0)} air{drop_contents:1b}
+    }
 }
