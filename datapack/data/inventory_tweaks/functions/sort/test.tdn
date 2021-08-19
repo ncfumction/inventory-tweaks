@@ -9,13 +9,12 @@ define function /../b {
 
 
 define function /a {
-    set ${shulker_box(0)}.Items = @s.Inventory
     for (var i = 0; i < 1000; i++) {
         function /../../a
     }
 }
 define function /b {
-    set ${shulker_box(0)}.Items = @s.Inventory
+    set ${shulker_box(0)}.Items = (~ ~ ~).Items
     for (var i = 0; i < 1000; i++) {
         function /../../b
     }
