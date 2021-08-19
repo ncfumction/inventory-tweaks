@@ -1,19 +1,21 @@
 define function /../a {
     for (var i = 0; i < 27; i++) {
-        item replace block ~ ~ ~ ${'container.' + i} from entity @s ${'container.' + i}
+        item replace entity @s ${'container.' + i} from block ${shulker_box(0)} ${'container.' + i}
     }
 }
 define function /../b {
-    data modify block ~ ~ ~ Items set from block ~ ~ ~ Items
+    loot replace entity @s container.0 mine ${shulker_box(0)} air{drop_contents:1b}
 }
 
 
 define function /a {
+    set ${shulker_box(0)}.Items = @s.Inventory
     for (var i = 0; i < 1000; i++) {
         function /../../a
     }
 }
 define function /b {
+    set ${shulker_box(0)}.Items = @s.Inventory
     for (var i = 0; i < 1000; i++) {
         function /../../b
     }
