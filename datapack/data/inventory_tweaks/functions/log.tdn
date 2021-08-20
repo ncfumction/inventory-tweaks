@@ -52,12 +52,12 @@ var add_log = function (msg) {
                                 {
                                     -function set_name
                                     -entity this
-                                    -name: ${
+                                    -name: ${new text_component(
                                         msg.target is entity ? {nbt: (string)msg.member, entity: (string)msg.target}
                                         : msg.target is coordinates ? {nbt: (string)msg.member, block: (string)msg.target}
                                         : msg.target is string ? {nbt: (string)msg.member, storage: msg.target}
                                         : null
-                                    }
+                                    )}
                                 }
                             ]
                         }
