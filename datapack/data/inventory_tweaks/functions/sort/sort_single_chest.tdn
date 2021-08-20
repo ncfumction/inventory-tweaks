@@ -14,11 +14,6 @@ var unique_tag = get_unique('unique')
 
 
 eval add_log('sorted a single container.')
-# TODO: remove this
-var s = anonymous_storage()
-set $s = []
-if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
-eval add_log(s)
 
 # Summon the armor stands in mass
 in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
@@ -78,8 +73,3 @@ in overworld function {
     set $storage = ${shulker_box(1)}.Items
 }
 set (~ ~ ~).Items = $storage
-# TODO: remove this
-var s = anonymous_storage()
-set $s = []
-if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
-eval add_log(s)

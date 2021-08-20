@@ -16,8 +16,6 @@ in overworld function {
     # I'm not using using because that'll result in more indentation
     tag @s add $self_tag
     eval add_log('sorted inventory.')
-    # TODO: remove this
-    eval add_log(pointer<@s.Inventory>)
     
     # Summon the armor stands in mass
     summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
@@ -75,7 +73,5 @@ in overworld function {
     loot replace entity @s container.9 mine ${shulker_box(1)} air{drop_contents:1b}
     
     tag @s remove $self_tag
-    # TODO: remove this
-    eval add_log(pointer<@s.Inventory>)
 }
 
