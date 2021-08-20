@@ -1,11 +1,43 @@
 @ require anonymous_resources:storage
+@ require anonymous_resources:score
 
 var log = anonymous_storage('log')
 eval on_load(function () {
     unless data storage ${log.target} ${log.member} set $log = []
 })
 
+var add_log = function (msg: string) {
+    _loot_table / {
+        -type chest
+        -pools [
+            {
+                -rolls 1
+                -entries [
+                    {
+                        -type minecraft:item
+                        -name minecraft:nether_gold_ore
+                        -functions [
+                            {
+                                -function set_name
+                                -entity this
+                                -name ${new text_component([
+                                    formatted_time(),
+                                    ' ',
+                                    {selector: '@s', color: 'aqua'}
+                                ])}
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    in overworld loot replace block ${shulker_box(0)} container.0 loot /
+    in overworld modify $log append ${shulker_box(0)}.Items[0].tag.display.Name
+    modify $log append ${new nbt(' ' + msg + '\n')}
+}
+
 tellraw @s '----------------'
-tellraw @s {"nbt": ${(string)(log >> []).member}, "storage": ${(string)log.target}, "separator": "\n", "interpret": true}
+tellraw @s {"nbt": ${(string)(log >> []).member}, "storage": ${(string)log.target}, "separator": "", "interpret": true}
 tellraw @s '----------------'
 set $log = []

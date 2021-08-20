@@ -1,6 +1,7 @@
 @ on compile
 @ priority 100000
-@ require anonymous_resources:hash
+@ require anonymous_resources:score
+@ require anonymous_resources:storage
 
 # Install the yellow shulker box loot table
 eval File.out.writeData(
@@ -11,6 +12,46 @@ eval File.out.writeData(
 # Run something on load
 global var on_load = function (callback: function) {
     eval Reflection.insertToFile(resource<inventory_tweaks:load>, callback)
+}
+
+# An increasing score for time since load
+global var time_since_load = anonymous_score()
+eval on_load(function () { set $time_since_load = 0 })
+# Time since load functions
+var time = anonymous_score()
+var time_storage = anonymous_storage()
+global var formatted_time = function () {
+    set $time_storage = [0, 0, 0, 0, 0, 0, 0]
+    set ${(time_storage >> 0) / 7200000} = $time_since_load
+    set $time = $time_since_load
+    set $time %= 7200000
+    set ${(time_storage >> 1) / 720000} = $time
+    set $time = $time_since_load
+    set $time %= 720000
+    set ${(time_storage >> 2) / 72000} = $time
+    set $time = $time_since_load
+    set $time %= 72000
+    set ${(time_storage >> 3) / 12000} = $time
+    set $time = $time_since_load
+    set $time %= 12000
+    set ${(time_storage >> 4) / 1200} = $time
+    set $time = $time_since_load
+    set $time %= 1200
+    set ${(time_storage >> 5) / 200} = $time
+    set $time = $time_since_load
+    set $time %= 200
+    set ${(time_storage >> 6) / 20} = $time
+    return [
+        '[ ',
+        {nbt: (time_storage >> 0).member, storage: time_storage.target},
+        {nbt: (time_storage >> 1).member, storage: time_storage.target},
+        {nbt: (time_storage >> 2).member, storage: time_storage.target}, ':',
+        {nbt: (time_storage >> 3).member, storage: time_storage.target},
+        {nbt: (time_storage >> 4).member, storage: time_storage.target}, ':',
+        {nbt: (time_storage >> 5).member, storage: time_storage.target},
+        {nbt: (time_storage >> 6).member, storage: time_storage.target},
+        ' ]'
+    ]
 }
 
 # Load a chunk for various purposes

@@ -1,3 +1,4 @@
 @ tag tick
 
 as @a at @s function inventory_tweaks:sort/double_click
+set $time_since_load += 1
