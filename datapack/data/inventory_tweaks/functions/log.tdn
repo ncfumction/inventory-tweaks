@@ -21,6 +21,7 @@ var add_log = function (msg: string) {
                                 -function set_name
                                 -entity this
                                 -name ${new text_component([
+                                    '',
                                     [
                                         {color: 'red', text: ''},
                                         formatted_time()
