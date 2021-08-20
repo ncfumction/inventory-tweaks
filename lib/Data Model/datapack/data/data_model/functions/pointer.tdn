@@ -15,6 +15,14 @@ define static class Pointer {
         eval self.scale *= other
         return self
     }
+    operator / (self: pointer, other: int) {
+        eval self.scale /= other
+        return self
+    }
+    operator / (self: pointer, other: real) {
+        eval self.scale /= other
+        return self
+    }
     
     operator >> (self: pointer, other: int) {
         eval reject_score(self)
