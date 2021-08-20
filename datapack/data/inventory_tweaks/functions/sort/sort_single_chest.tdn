@@ -16,7 +16,8 @@ var unique_tag = get_unique('unique')
 eval add_log('sorted a single container.')
 # TODO: remove this
 var s = anonymous_storage()
-set $s = (~ ~ ~).Items
+set $s = []
+if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
 eval add_log(s)
 
 # Summon the armor stands in mass
@@ -79,5 +80,6 @@ in overworld function {
 set (~ ~ ~).Items = $storage
 # TODO: remove this
 var s = anonymous_storage()
-set $s = (~ ~ ~).Items
+set $s = []
+if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
 eval add_log(s)

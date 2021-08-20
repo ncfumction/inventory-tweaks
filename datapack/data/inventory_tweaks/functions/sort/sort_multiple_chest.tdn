@@ -18,7 +18,8 @@ var marker_id = anonymous_objective('marker_id')
 at @e[type=minecraft:marker,tag=$marker_tag] function {
     # TODO: remove this
     var s = anonymous_storage()
-    set $s = (~ ~ ~).Items
+    set $s = []
+    if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
     eval add_log(s)
     # Summon the armor stands in mass
     in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
@@ -93,7 +94,10 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,s
             set ${shulker_box(1)}.Items = []
             as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
                 # TODO: remove this
-                eval add_log(storage)
+                var s = anonymous_storage()
+                set $s = []
+                if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
+                eval add_log(s)
                 set (~ ~ ~).Items = $storage
                 kill @s
                 set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
@@ -113,7 +117,10 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,s
                 set ${shulker_box(1)}.Items = []
                 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
                     # TODO: remove this
-                    eval add_log(storage)
+                    var s = anonymous_storage()
+                    set $s = []
+                    if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
+                    eval add_log(s)
                     set (~ ~ ~).Items = $storage
                     kill @s
                     set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
@@ -152,7 +159,10 @@ set $storage = ${shulker_box(1)}.Items
 set ${shulker_box(1)}.Items = []
 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
     # TODO: remove this
-    eval add_log(storage)
+    var s = anonymous_storage()
+    set $s = []
+    if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
+    eval add_log(s)
     set (~ ~ ~).Items = $storage
     kill @s
     set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
@@ -160,7 +170,10 @@ as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s
 as @e[type=minecraft:marker,tag=$marker_tag] at @s function {
     set (~ ~ ~).Items = []
     # TODO: remove this
-    eval add_log(pointer<(~ ~ ~).Items>)
+    var s = anonymous_storage()
+    set $s = []
+    if data block ~ ~ ~ Items set $s = (~ ~ ~).Items
+    eval add_log(s)
     kill @s
 }
 
