@@ -2,11 +2,7 @@
 @ require inventory_tweaks:load_config
 @ require inventory_tweaks:log
 
-var self_tag = get_unique('self')
-using tag $self_tag @s {
-    in overworld set ${sign(0)}.Text1 = ${new nbt('["", {"selector": "@a[tag=' + self_tag + ']", "color": "aqua"}, " transfered items."]')}
-    in overworld modify $log append ${sign(0)}.Text1
-}
+eval add_log('transfered items.')
 
 anchored eyes positioned ^ ^ ^0.1 function {
     if block ~ ~ ~ #inventory_tweaks:see_through if entity @s[distance=..10] positioned ^ ^ ^0.1 function /
