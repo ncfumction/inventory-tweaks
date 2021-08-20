@@ -34,7 +34,7 @@ var add_log = function (msg: string) {
     }
     in overworld loot replace block ${shulker_box(0)} container.0 loot /
     in overworld modify $log append ${shulker_box(0)}.Items[0].tag.display.Name
-    data modify storage ${log.target} ${log.member} append value ${new nbt(' ' + msg + '\\n')}
+    data modify storage ${log.target} ${log.member} append value ${new nbt('" ' + msg + '\\n"')}
 }
 
 tellraw @s '----------------'
