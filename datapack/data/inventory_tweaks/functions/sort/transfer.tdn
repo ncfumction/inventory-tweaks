@@ -1,4 +1,5 @@
 @ require inventory_tweaks:sort/sort_multiple_chest
+@ require inventory_tweaks:load_config
 
 anchored eyes positioned ^ ^ ^0.1 function {
     if block ~ ~ ~ #inventory_tweaks:see_through if entity @s[distance=..10] positioned ^ ^ ^0.1 function /
@@ -10,10 +11,13 @@ anchored eyes positioned ^ ^ ^0.1 function {
             set highest -> $marker_id += 1
         }
         
-        if block ~ ~ ~ #inventory_tweaks:chests[type=single] function /chest
-        if block ~ ~ ~ #inventory_tweaks:chests
-            unless block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/detect_double_chest
-        unless block ~ ~ ~ #inventory_tweaks:chests function /chest
+        if score deref $check_double_chest matches 1 function {
+            if block ~ ~ ~ #inventory_tweaks:chests[type=single] function /../chest
+            if block ~ ~ ~ #inventory_tweaks:chests
+                unless block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/detect_double_chest
+            unless block ~ ~ ~ #inventory_tweaks:chests function /../chest
+        }
+        unless score deref $check_double_chest matches 1 function /chest
         
         # Also mark a shulker box as sorting target
         in overworld positioned ${shulker_box(2)} function {

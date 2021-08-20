@@ -1,0 +1,9 @@
+@ require anonymous_resources:storage
+
+var log = anonymous_storage('log')
+eval on_load(function () {
+    unless data storage ${log.target} ${log.member} set $log = []
+})
+
+tellraw @s {"nbt": ${log.member}, "storage": ${log.target}, "separator": "\n"}
+set $log = []

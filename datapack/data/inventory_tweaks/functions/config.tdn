@@ -1,0 +1,48 @@
+@ require anonymous_resources:storage
+@ require inventory_tweaks:command_feedback
+@ require inventory_tweaks:load_config
+
+eval no_feedback()
+
+var storage = anonymous_storage()
+set $storage = []
+
+var message = ['\n\n\n\n']
+var add_config = function (score: pointer, msg: string, hover: text_component) {
+    eval message.add([
+        '\n',
+        {
+            nbt: (string)(storage >> (message.length - 1)).member,
+            storage: (string)(storage >> (message.length - 1)).target,
+            interpret: true,
+            clickEvent: {
+                action: 'run_command',
+                value: '/function inventory_tweaks:config/' + score.target
+            },
+            hoverEvent: {
+                action: 'show_text',
+                contents: hover
+            }
+        },
+        ' ',
+        msg
+    ])
+    define function ${(resource)('/' + score.target)} {
+        eval no_feedback()
+        execute store success score deref $score unless score deref $score matches 1 noop
+        function inventory_tweaks:config
+    }
+    
+    if score deref $score matches 1 modify $storage append '{"text":"[ ✔ ]","color":"green"}'
+    unless score deref $score matches 1 modify $storage append '{"text":"[ ❌ ]","color":"red"}'
+}
+
+
+eval add_config(allow_resupply, 'Allow auto-resupplying', 'If checked, allow depleted stacks and broken tools to be resupplied from inventory.')
+eval add_config(allow_sort_inventory, 'Allow sorting inventory', 'If checked, allow players to sort their inventories.')
+eval add_config(allow_sort_chest, 'Allow sorting containers', 'If checked, allow players to sort container blocks.')
+eval add_config(check_double_chest, 'Check for double chests', 'If unchecked, double chests will be seen as two single chests instead.')
+eval add_config(allow_transfer, 'Allow transfering from inventory to containers', 'If checked, allow players to transfer their inventories to container blocks.')
+
+
+tellraw @s ${new text_component(message)}

@@ -1,4 +1,5 @@
 @ require anonymous_resources:score
+@ require inventory_tweaks:load_config
 
 _advancement / {
     -trigger minecraft:inventory_changed
@@ -15,7 +16,8 @@ if score @s $countdown matches 1000
     set @s -> $countdown = $delay
 in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
     if score @s -> $countdown matches 0..$delay
-        in overworld function inventory_tweaks:sort/sort_inventory
+        if score deref $allow_sort_inventory matches 1
+        function inventory_tweaks:sort/sort_inventory
     set @s -> $countdown = 1000
 }
 
@@ -27,6 +29,7 @@ if score @s $countdown matches 1000
     set @s -> $countdown = $delay
 in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
     if score @s -> $countdown matches 0..$delay
+        if score deref $allow_sort_chest matches 1
         at @s function inventory_tweaks:sort/sort_chest
     set @s -> $countdown = 1000
 }
@@ -39,6 +42,7 @@ if score @s $countdown matches 1000
     set @s -> $countdown = $delay
 in overworld unless data block ${shulker_box(0)} Items[{Slot: 0b}] function {
     if score @s -> $countdown matches 0..$delay
+        if score deref $allow_transfer matches 1
         at @s function inventory_tweaks:sort/transfer
     set @s -> $countdown = 1000
 }

@@ -1,5 +1,6 @@
 @ on compile
 @ require inventory_tweaks:replace/copy_to_hand
+@ require inventory_tweaks:load_config
 
 var location = resource</>
 
@@ -91,28 +92,30 @@ for (entry in items) {
             -function /
         }
         
-        # Get the custom item id
-        set @s -> $item_id = @s.SelectedItem.tag.inventory_tweaks.id
-        
-        # Schedule the replacement later
-        _aschedule /schedule {
-            # If this is a custom item, invoke the custom replacer
-            unless score @s $item_id matches 0 function inventory_tweaks:replace/custom_replacer
+        if score deref $allow_resupply matches 1 function {
+            # Get the custom item id
+            set @s -> $item_id = @s.SelectedItem.tag.inventory_tweaks.id
             
-            if score @s $item_id matches 0 function /../vanilla {
-                # If this is a vanilla item, first copy all items with the same ID to replacement list
-                set $replacement = []
-                modify $replacement append @s.Inventory[{id:$item}]
-                # Then, remove offhand and armor slots
-                modify ${replacement >> [nbt<{Slot:-106b}>]} remove
-                modify ${replacement >> [nbt<{Slot:100b}>]} remove
-                modify ${replacement >> [nbt<{Slot:101b}>]} remove
-                modify ${replacement >> [nbt<{Slot:102b}>]} remove
-                modify ${replacement >> [nbt<{Slot:103b}>]} remove
-                # Remove custom items
-                modify ${replacement >> [nbt<{tag:{inventory_tweaks:{custom:1b}}}>]} remove
-                # Copy the item to hand
-                if data storage ${replacement.target} ${(replacement >> []).member} function inventory_tweaks:replace/copy_to_hand
+            # Schedule the replacement later
+            _aschedule /schedule {
+                # If this is a custom item, invoke the custom replacer
+                unless score @s $item_id matches 0 function inventory_tweaks:replace/custom_replacer
+                
+                if score @s $item_id matches 0 function /../vanilla {
+                    # If this is a vanilla item, first copy all items with the same ID to replacement list
+                    set $replacement = []
+                    modify $replacement append @s.Inventory[{id:$item}]
+                    # Then, remove offhand and armor slots
+                    modify ${replacement >> [nbt<{Slot:-106b}>]} remove
+                    modify ${replacement >> [nbt<{Slot:100b}>]} remove
+                    modify ${replacement >> [nbt<{Slot:101b}>]} remove
+                    modify ${replacement >> [nbt<{Slot:102b}>]} remove
+                    modify ${replacement >> [nbt<{Slot:103b}>]} remove
+                    # Remove custom items
+                    modify ${replacement >> [nbt<{tag:{inventory_tweaks:{custom:1b}}}>]} remove
+                    # Copy the item to hand
+                    if data storage ${replacement.target} ${(replacement >> []).member} function inventory_tweaks:replace/copy_to_hand
+                }
             }
         }
         

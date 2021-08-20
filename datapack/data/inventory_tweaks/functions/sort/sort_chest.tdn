@@ -1,9 +1,14 @@
+@ require inventory_tweaks:load_config
+
 anchored eyes positioned ^ ^ ^0.1 function {
     if block ~ ~ ~ #inventory_tweaks:see_through if entity @s[distance=..10] positioned ^ ^ ^0.1 function /
     if block ~ ~ ~ #inventory_tweaks:containers function {
-        if block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/sort_single_chest
-        if block ~ ~ ~ #inventory_tweaks:chests
-            unless block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/sort_double_chest
-        unless block ~ ~ ~ #inventory_tweaks:chests function inventory_tweaks:sort/sort_single_chest
+        if score deref $check_double_chest matches 1 function {
+            if block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/sort_single_chest
+            if block ~ ~ ~ #inventory_tweaks:chests
+                unless block ~ ~ ~ #inventory_tweaks:chests[type=single] function inventory_tweaks:sort/sort_double_chest
+            unless block ~ ~ ~ #inventory_tweaks:chests function inventory_tweaks:sort/sort_single_chest
+        }
+        unless score deref $check_double_chest matches 1 function inventory_tweaks:sort/sort_single_chest
     }
 }

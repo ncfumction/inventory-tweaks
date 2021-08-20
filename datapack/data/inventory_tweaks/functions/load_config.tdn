@@ -1,0 +1,17 @@
+@ tag load
+@ require anonymous_resources:score
+
+var config = hash('config')
+scoreboard objectives add $config dummy
+
+
+var allow_sort_inventory = pointer<allow_sort_inventory -> $config>
+unless score deref $allow_sort_inventory isset set $allow_sort_inventory = 1
+var allow_sort_chest = pointer<allow_sort_chest -> $config>
+unless score deref $allow_sort_chest isset set $allow_sort_chest = 1
+var check_double_chest = pointer<check_double_chest -> $config>
+unless score deref $check_double_chest isset set $check_double_chest = 1
+var allow_transfer = pointer<allow_transfer -> $config>
+unless score deref $allow_transfer isset set $allow_transfer = 1
+var allow_resupply = pointer<allow_resupply -> $config>
+unless score deref $allow_resupply isset set $allow_resupply = 1

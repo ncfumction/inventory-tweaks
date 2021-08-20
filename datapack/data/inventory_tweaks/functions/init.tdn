@@ -35,6 +35,16 @@ global var shulker_box = function (y: int): coordinates {
     return loaded_shulker_box[y]
 }
 
+# Set if needed and return a sign's coordinates
+var loaded_sign = [null] * 255
+global var sign = function (y: int): coordinates {
+    if (loaded_sign[y] == null) {
+        eval loaded_sign[y] = load_coords(1, y, 0)
+        eval on_load(function () { in overworld setblock ${load_coords(1, y, 0)} minecraft:dark_oak_sign })
+    }
+    return loaded_sign[y]
+}
+
 # Create the required tags
 define function / {
     @ tag remove
