@@ -42,16 +42,16 @@ global var formatted_time = function () {
     set $time %= 200
     set ${(time_storage >> 6) / 20 % 'int'} = $time
     return [
-        '[ ',
-        {nbt: (time_storage >> 0).member, storage: time_storage.target},
-        {nbt: (time_storage >> 1).member, storage: time_storage.target},
-        {nbt: (time_storage >> 2).member, storage: time_storage.target}, ':',
-        {nbt: (time_storage >> 3).member, storage: time_storage.target},
-        {nbt: (time_storage >> 4).member, storage: time_storage.target}, ':',
-        {nbt: (time_storage >> 5).member, storage: time_storage.target},
-        {nbt: (time_storage >> 6).member, storage: time_storage.target},
+        '[ ', time_storage >> 0,
         ' ]'
     ]
+#        {nbt: (string)(time_storage >> 0).member, storage: time_storage.target},
+#        {nbt: (string)(time_storage >> 1).member, storage: time_storage.target},
+#        {nbt: (string)(time_storage >> 2).member, storage: time_storage.target}, ':',
+#        {nbt: (string)(time_storage >> 3).member, storage: time_storage.target},
+#        {nbt: (string)(time_storage >> 4).member, storage: time_storage.target}, ':',
+#        {nbt: (string)(time_storage >> 5).member, storage: time_storage.target},
+#        {nbt: (string)(time_storage >> 6).member, storage: time_storage.target},
 }
 
 # Load a chunk for various purposes
