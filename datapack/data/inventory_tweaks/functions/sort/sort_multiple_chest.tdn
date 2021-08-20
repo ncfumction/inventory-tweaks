@@ -149,9 +149,9 @@ loot insert ${shulker_box(1)} mine ${shulker_box(0)} air{drop_contents:1b}
 set $storage = ${shulker_box(1)}.Items
 set ${shulker_box(1)}.Items = []
 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
-    set (~ ~ ~).Items = $storage
     # TODO: remove this
-    eval add_log(pointer<(~ ~ ~).Items>)
+    eval add_log(storage)
+    set (~ ~ ~).Items = $storage
     kill @s
     set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
 }

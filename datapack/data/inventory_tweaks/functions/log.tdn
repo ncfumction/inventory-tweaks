@@ -55,7 +55,7 @@ var add_log = function (msg) {
                                     -name: ${new text_component(
                                         msg.target is entity ? {nbt: (string)msg.member, entity: (string)msg.target}
                                         : msg.target is coordinates ? {nbt: (string)msg.member, block: (string)msg.target}
-                                        : msg.target is string ? {nbt: (string)msg.member, storage: msg.target}
+                                        : msg.target is resource ? {nbt: (string)msg.member, storage: (string)msg.target}
                                         : null
                                     )}
                                 }
