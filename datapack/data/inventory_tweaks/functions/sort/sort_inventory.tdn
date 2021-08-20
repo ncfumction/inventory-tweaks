@@ -15,7 +15,7 @@ var unique_tag = get_unique('unique')
 in overworld function {
     # I'm not using using because that'll result in more indentation
     tag @s add $self_tag
-    set ${sign(0)}.Text1 = ${'[{"selector": "@a[tag=' + self_tag + ']"}, " sorted inventory."]'}
+    set ${sign(0)}.Text1 = ${new nbt('[{"selector": "@a[tag=' + self_tag + ']"}, " sorted inventory."]')}
     modify $log append ${sign(0)}.Text1
     
     # Summon the armor stands in mass
