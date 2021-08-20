@@ -3,6 +3,8 @@
 @ require inventory_tweaks:sort/id
 @ require inventory_tweaks:sort/tree
 
+@ require inventory_tweaks:log
+
 
 
 var marker_tag = get_unique('marker')
@@ -14,6 +16,8 @@ var marker_id = anonymous_objective('marker_id')
 # First, get all the items into armor stands
 # and put the armor stands in the correct y coordinates
 at @e[type=minecraft:marker,tag=$marker_tag] function {
+    # TODO: remove this
+    eval add_log(pointer<(~ ~ ~).Items>)
     # Summon the armor stands in mass
     in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
         Marker: 1b,
@@ -87,6 +91,8 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,s
             set ${shulker_box(1)}.Items = []
             as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
                 set (~ ~ ~).Items = $storage
+                # TODO: remove this
+                eval add_log(pointer<(~ ~ ~).Items>)
                 kill @s
                 set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
             }
@@ -105,6 +111,8 @@ as @e[type=minecraft:armor_stand,tag=$summon_tag,x=$load_x,y=-2,z=$load_z,dy=4,s
                 set ${shulker_box(1)}.Items = []
                 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
                     set (~ ~ ~).Items = $storage
+                    # TODO: remove this
+                    eval add_log(pointer<(~ ~ ~).Items>)
                     kill @s
                     set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
                 }
@@ -142,11 +150,15 @@ set $storage = ${shulker_box(1)}.Items
 set ${shulker_box(1)}.Items = []
 as @e[type=minecraft:marker,tag=$marker_tag,limit=1,scores={$marker_id=0}] at @s function {
     set (~ ~ ~).Items = $storage
+    # TODO: remove this
+    eval add_log(pointer<(~ ~ ~).Items>)
     kill @s
     set @e[type=minecraft:marker,tag=$marker_tag] -> $marker_id -= 1
 }
 as @e[type=minecraft:marker,tag=$marker_tag] at @s function {
     set (~ ~ ~).Items = []
+    # TODO: remove this
+    eval add_log(pointer<(~ ~ ~).Items>)
     kill @s
 }
 
