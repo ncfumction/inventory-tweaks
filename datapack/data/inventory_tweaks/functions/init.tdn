@@ -22,25 +22,25 @@ var time = anonymous_score()
 var time_storage = anonymous_storage()
 global var formatted_time = function () {
     set $time_storage = [0, 0, 0, 0, 0, 0, 0]
-    set ${(time_storage >> 0) / 7200000} = $time_since_load
+    set ${(time_storage >> 0) / 7200000 % 'int'} = $time_since_load
     set $time = $time_since_load
     set $time %= 7200000
-    set ${(time_storage >> 1) / 720000} = $time
+    set ${(time_storage >> 1) / 720000 % 'int'} = $time
     set $time = $time_since_load
     set $time %= 720000
-    set ${(time_storage >> 2) / 72000} = $time
+    set ${(time_storage >> 2) / 72000 % 'int'} = $time
     set $time = $time_since_load
     set $time %= 72000
-    set ${(time_storage >> 3) / 12000} = $time
+    set ${(time_storage >> 3) / 12000 % 'int'} = $time
     set $time = $time_since_load
     set $time %= 12000
-    set ${(time_storage >> 4) / 1200} = $time
+    set ${(time_storage >> 4) / 1200 % 'int'} = $time
     set $time = $time_since_load
     set $time %= 1200
-    set ${(time_storage >> 5) / 200} = $time
+    set ${(time_storage >> 5) / 200 % 'int'} = $time
     set $time = $time_since_load
     set $time %= 200
-    set ${(time_storage >> 6) / 20} = $time
+    set ${(time_storage >> 6) / 20 % 'int'} = $time
     return [
         '[ ',
         {nbt: (time_storage >> 0).member, storage: time_storage.target},
