@@ -17,6 +17,10 @@ if (args.value != null) {
     eval command += ' from'
     if (args.source.target is coordinates) {
         eval command += ' block'
+        eval args.source.target = args.source.target
+            .deriveMagnitude((int)args.source.target.getMagnitude(Axis.X), Axis.X)
+            .deriveMagnitude((int)args.source.target.getMagnitude(Axis.Y), Axis.Y)
+            .deriveMagnitude((int)args.source.target.getMagnitude(Axis.Z), Axis.Z)
     } else if (args.source.target is entity) {
         if (args.source.member is string)
             throw 'This command does not accept score pointer'
