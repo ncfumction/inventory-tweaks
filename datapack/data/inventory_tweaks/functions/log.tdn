@@ -5,5 +5,7 @@ eval on_load(function () {
     unless data storage ${log.target} ${log.member} set $log = []
 })
 
+tellraw @s '----------------'
 tellraw @s {"nbt": ${(string)(log >> []).member}, "storage": ${(string)log.target}, "separator": "\n", "interpret": true}
+tellraw @s '----------------'
 set $log = []

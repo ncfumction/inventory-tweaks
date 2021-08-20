@@ -1,2 +1,9 @@
+@ require inventory_tweaks:log
+
+var self_tag = get_unique('self')
+using tag $self_tag @s {
+    in overworld set ${sign(0)}.Text1 = ${new nbt('["", {"selector": "@a[tag=' + self_tag + ']", "color": "aqua"}, " sorted a double chest."]')}
+    in overworld modify $log append ${sign(0)}.Text1
+}
 function inventory_tweaks:sort/detect_double_chest
 in overworld function inventory_tweaks:sort/sort_multiple_chest

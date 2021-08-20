@@ -2,6 +2,7 @@
 @ require inventory_tweaks:sort/id
 @ require inventory_tweaks:sort/tree
 @ require anonymous_resources:storage
+@ require inventory_tweaks:log
 
 # We use entity sort for this
 # The numbers are stored at y pos of entities
@@ -11,6 +12,13 @@
 var self_tag = get_unique('self')
 var summon_tag = get_unique('summon')
 var unique_tag = get_unique('unique')
+
+
+var self_tag = get_unique('self')
+using tag $self_tag @s {
+    in overworld set ${sign(0)}.Text1 = ${new nbt('["", {"selector": "@a[tag=' + self_tag + ']", "color": "aqua"}, " sorted a single container."]')}
+    in overworld modify $log append ${sign(0)}.Text1
+}
 
 # Summon the armor stands in mass
 in overworld summon minecraft:armor_stand ${load_coords(0.5, 0, 0.5)} {
