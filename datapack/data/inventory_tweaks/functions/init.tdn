@@ -44,9 +44,9 @@ global var formatted_time = function () {
     return [
         {nbt: (string)(time_storage >> 0).member, storage: time_storage.target},
         {nbt: (string)(time_storage >> 1).member, storage: time_storage.target},
-        {nbt: (string)(time_storage >> 2).member, storage: time_storage.target}, ' : ',
+        {nbt: (string)(time_storage >> 2).member, storage: time_storage.target}, ':',
         {nbt: (string)(time_storage >> 3).member, storage: time_storage.target},
-        {nbt: (string)(time_storage >> 4).member, storage: time_storage.target}, ' : ',
+        {nbt: (string)(time_storage >> 4).member, storage: time_storage.target}, ':',
         {nbt: (string)(time_storage >> 5).member, storage: time_storage.target},
         {nbt: (string)(time_storage >> 6).member, storage: time_storage.target}
     ]

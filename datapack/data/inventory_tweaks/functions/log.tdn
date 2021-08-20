@@ -23,7 +23,7 @@ var add_log = function (msg: string) {
                                 -name ${new text_component([
                                     '[ ',
                                     [
-                                        {color: 'red', text: '', bold: true},
+                                        {color: 'red', text: ''},
                                         formatted_time()
                                     ],
                                     ' ] ',
