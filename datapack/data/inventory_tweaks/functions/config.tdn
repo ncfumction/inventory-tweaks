@@ -8,7 +8,8 @@ var storage = anonymous_storage()
 set $storage = []
 
 var message = ['\n\n\n\n']
-var add_config = function (score: pointer, msg: string, hover: text_component) {
+var add_config = function (score: pointer, msg: string, hover) {
+    eval hover = new text_component(hover)
     eval message.add([
         '\n',
         {
