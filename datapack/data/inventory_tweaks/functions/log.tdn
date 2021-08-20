@@ -6,7 +6,7 @@ eval on_load(function () { set $log = [] })
 
 var add_log = function (msg) {
     if (msg is string) {
-        _loot_table / {
+        _loot_table /string {
             -type chest
             -pools [
                 {
@@ -35,11 +35,11 @@ var add_log = function (msg) {
                 }
             ]
         }
-        in overworld loot replace block ${shulker_box(0)} container.0 loot /
+        in overworld loot replace block ${shulker_box(0)} container.0 loot /string
         in overworld modify $log append ${shulker_box(0)}.Items[0].tag.display.Name
         data modify storage ${log.target} ${log.member} append value ${new nbt('" ' + msg + '\\n"')}
     } else if (msg is pointer) {
-        _loot_table / {
+        _loot_table /pointer {
             -type chest
             -pools [
                 {
@@ -65,7 +65,7 @@ var add_log = function (msg) {
                 }
             ]
         }
-        in overworld loot replace block ${shulker_box(0)} container.0 loot /
+        in overworld loot replace block ${shulker_box(0)} container.0 loot /pointer
         in overworld modify $log append ${shulker_box(0)}.Items[0].tag.display.Name
         data modify storage ${log.target} ${log.member} append value '\\n'
     }
