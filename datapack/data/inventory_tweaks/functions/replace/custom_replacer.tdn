@@ -11,11 +11,14 @@ modify ${replacement >> [nbt<{Slot:103b}>]} remove
 
 # Iterate through the list, stop at the first item with matching id found
 var slot_id = anonymous_score()
+var count = anonymous_score()
+set $count = ${replacement >> []}
 function /loop {
     set $slot_id = ${replacement >> 0 >> 'tag' >> 'inventory_tweaks' >> 'id'}
-    unless score deref $slot_id = @s $item_id expand {
+    set $count -= 1
+    unless score deref $slot_id = @s $item_id unless score deref $count matches 0 function {
         modify ${replacement >> 0} remove
-        function /
+        function /..
     }
 }
 
